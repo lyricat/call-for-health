@@ -1,0 +1,33 @@
+{
+  "port": 3001,
+  "provider": {
+    "id": "provider-name"
+  },
+  "fallback_db": {
+    "datebase": "your-db-name",
+    "username": "your-db-username",
+    "password": "your-db-password",
+    "type": "mysql",
+    "host": "your-db-host",
+    "port": 3306
+  },
+  "public_key_file": "./keys/pub.key",
+  "private_key_file": "./keys/priv.key",
+  "kyc_public_key_file": "./keys/kyc-pub.key",
+  "kyc_private_key_file": "./keys/kyc-priv.key",
+  "network_gateway": {
+    "host": "https://testnet-gateway-host",
+    "access_token": "YOUR_TOKEN"
+  },
+  "faceid": {
+    "api_key": "...",
+    "api_secret": "...",
+    "return_url": "https://YOUR_HOST_NAME/kyc/faceid/callback",
+    "notify_url": "https://YOUR_HOST_NAME/kyc/faceid/notify_callback"
+  },
+  "weibo": {
+    "client_id": "...",
+    "client_secret": "...",
+    "callback_url": "https://YOUR_HOST_NAME/auth/weibo/callback"
+  }
+}

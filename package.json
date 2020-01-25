@@ -1,0 +1,30 @@
+{
+  "name": "call-for-health",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.6.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-passport": "^4.1.1",
+    "koa-route": "^3.2.0",
+    "koa-router": "^7.4.0",
+    "koa-sass": "^2.0.0",
+    "koa-session": "^5.10.0",
+    "lodash": "^4.17.15",
+    "mysql2": "^1.6.4",
+    "node-cron": "^2.0.3",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-weibo": "^0.1.2",
+    "sequelize": "^5.21.3",
+    "uuid": "^3.3.3"
+  }
+}
