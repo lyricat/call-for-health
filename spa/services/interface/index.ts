@@ -1,5 +1,12 @@
 export interface IUser {
-  name: string
+  id: number,
+  username: string,
+  name: string,
+  weiboId: number,
+  kycState: number,
+  role: string,
+  createdAt: string,
+  updatedAt: string
 }
 
 export interface IRequirement {

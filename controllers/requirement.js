@@ -9,9 +9,6 @@ const buildOnChainRecord = function (user, action, payload) {
         a: action,
         id: payload.requirementId,
         op_id: user.id,
-        conn: [
-          { id: user.weiboId, t: "wb" }
-        ],
       }
     case 'CHANGE_STATUS':
       return {
@@ -20,9 +17,6 @@ const buildOnChainRecord = function (user, action, payload) {
         txid: payload.requirementTxId,
         stat: payload.status,
         op_id: user.id,
-        conn: [
-          { id: user.weiboId, t: "wb" }
-        ],
       }
   }
 }
@@ -33,6 +27,7 @@ module.exports = {
       where: { status: model.RequirementStatus.CONFIRMED },
       include: [{
         model: model.User,
+        attributes: model.UserAttrs,
         as: 'creator'
       }],
     })
@@ -45,6 +40,7 @@ module.exports = {
       where: { id: id},
       include: [{
         model: model.User,
+        attributes: model.UserAttrs,
         as: 'creator'
       }],
     })
@@ -67,18 +63,22 @@ module.exports = {
     let createData = ctx.request.body;
     let user = ctx.state.user;
 
-    if (createData.text.length === 0 || createData.products.length === 0) {
+    if (createData.text.length === 0
+      || createData.products.length === 0
+      || createData.contacts.length === 0
+      || createData.location.length === 0) {
       ctx.body = { status: 401, error: 'Invalid content'};
       return;
     }
 
-    let text = createData.text;
     var resp, txId;
     // 1. insert into db
     let item = await model.Requirement.create({
       creatorId: user.id,
       txId: '',
-      text: text,
+      text: createData.text,
+      location: createData.location,
+      contacts: createData.contacts,
       products: createData.products
     });
 

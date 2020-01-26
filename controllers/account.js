@@ -1,10 +1,74 @@
 const passport = require("koa-passport");
 const jwt = require('jsonwebtoken');
+const cryptoUtils = require("../utils/crypto-utils");
 const model = require("../model");
 const kyc = require("../utils/kyc");
+const uuid = require("uuid");
 
 module.exports = {
-  authWeibo: async function(ctx) {
+  register: async function (ctx) {
+    let registerData = ctx.request.body;
+    const username = registerData.username
+    let existed = await model.User.findOne({
+      where: { username: username },
+      attributes: model.UserAttrs
+    });
+    if (existed) {
+      ctx.body = { status: 400, data: 'already existed' };
+      return
+    }
+    const salt = uuid.v4()
+    await model.User.create({
+      name: username,
+      username: username,
+      password: cryptoUtils.genPasswordHash(registerData.password, salt),
+      salt: salt
+    });
+    return passport.authenticate('local', (err, user, info, status) => {
+      if (user) {
+        ctx.login(user);
+        user = user.get({ plain: true });
+        delete user.password
+        delete user.salt
+
+        const token = jwt.sign(user, 'jwt_secret_1234');
+        user.access_token = token;
+        ctx.body = { status: 'success', data: user };
+      } else {
+        ctx.status = 400;
+        ctx.body = { status: 400, data: 'incorrect form data' };
+      }
+    })(ctx);
+  },
+
+  login: async function (ctx) {
+    return passport.authenticate('local', (err, user, info, status) => {
+      if (user) {
+        ctx.login(user);
+        user = user.get({ plain: true });
+        delete user.password
+        delete user.salt
+
+        const token = jwt.sign(user, 'jwt_secret_1234');
+        user.access_token = token;
+        ctx.body = { status: 'success', data: user };
+      } else {
+        ctx.status = 400;
+        ctx.body = { status: 404, error: 'incorrect username or password' };
+      }
+    })(ctx);
+  },
+
+  me: async function (ctx) {
+    const user = ctx.state.user
+    let existed = await model.User.findOne({
+      where: { id: user.id },
+      attributes: model.UserAttrs
+    });
+    ctx.body = { status: 'success', data: existed };
+  },
+
+  authWeibo: async function (ctx) {
     await passport.authenticate("weibo")(ctx);
   },
 
@@ -19,14 +83,14 @@ module.exports = {
     )(ctx);
   },
 
-  authWeiboDone: async function(ctx) {
+  authWeiboDone: async function (ctx) {
     let user = ctx.state.user.get({ plain: true });
     const token = jwt.sign(user, 'jwt_secret_1234');
     user.access_token = token;
     ctx.body = { status: 'success', data: user };
   },
 
-  kycFaceIdStart: async function(ctx) {
+  kycFaceIdStart: async function (ctx) {
     let user = ctx.state.user;
     try {
       const resp = await kyc.faceIdGetBizToken();
@@ -57,11 +121,12 @@ module.exports = {
     }
   },
 
-  kycFaceIdCallback: async function(ctx) {
+  kycFaceIdCallback: async function (ctx) {
     console.log("kycFaceIdCallback:", ctx);
+    ctx.body = "实名认证已提交。请回到网站，查看认证状态。"
   },
 
-  kycFaceIdNotifyCallback: async function(ctx) {
+  kycFaceIdNotifyCallback: async function (ctx) {
     console.log("kycFaceIdNotifyCallback:", ctx);
   }
 };

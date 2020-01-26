@@ -1,4 +1,5 @@
 const crypto = require('crypto')
+const config = require('../config.json')
 
 function generateKeys(passphrase) {
   const { privateKey, publicKey } = crypto.generateKeyPairSync("rsa", {
@@ -35,9 +36,14 @@ const sha1HashHex = function(text) {
   return shasum.digest('hex')
 }
 
+const genPasswordHash = function (pwd, salt) {
+  return sha1HashHex(`${config.secret_salt}${pwd}${salt}`)
+}
+
 module.exports = {
   generateKeys,
   encryptRsa,
   decryptRsa,
-  sha1HashHex
+  sha1HashHex,
+  genPasswordHash
 }

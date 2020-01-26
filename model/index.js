@@ -16,9 +16,12 @@ const RequirementStatus = {
   HIDDEN: 'HIDDEN'
 }
 
+const UserAttrs = ['id', 'username', 'weiboid', 'name', 'kycState', 'role', 'createdAt', 'updatedAt']
+
 module.exports = {
   User: User,
   Kyc: Kyc,
   Requirement: Requirement,
-  RequirementStatus: RequirementStatus
+  RequirementStatus: RequirementStatus,
+  UserAttrs: UserAttrs
 };
