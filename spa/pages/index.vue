@@ -46,11 +46,11 @@ class IndexPage extends Vue {
 
   async init () {
     this.loading = true
-    await this.requesUser()
+    await this.request()
     this.loading = false
   }
 
-  async requesUser () {
+  async request () {
     try {
       const requirements = await getRequirements()
       console.log(requirements)
