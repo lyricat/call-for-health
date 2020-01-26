@@ -22,6 +22,12 @@ const Requirement = db.getDB().define("requirement", {
   text: {
     type: Sequelize.STRING
   },
+  location: {
+    type: Sequelize.STRING
+  },
+  contacts: {
+    type: Sequelize.STRING
+  },
   products: {
     type: Sequelize.JSON,
     allowNull: false

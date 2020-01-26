@@ -29,14 +29,24 @@ const buildOnChainRecord = function (user, action, payload) {
 module.exports = {
   list: async function(ctx) {
     let records = await model.Requirement.findAll({
-      where: { status: model.RequirementStatus.CONFIRMED }
+      where: { status: model.RequirementStatus.CONFIRMED },
+      include: [{
+        model: model.User,
+        as: 'creator'
+      }],
     })
     ctx.body = { status: 'success', data: records };
   },
 
   single: async function(ctx) {
     let id = ctx.params.id;
-    let record = await model.Requirement.findByPk(id)
+    let record = await model.Requirement.findOne({
+      where: { id: id},
+      include: [{
+        model: model.User,
+        as: 'creator'
+      }],
+    })
     if (record && record.status === model.RequirementStatus.CONFIRMED) {
       ctx.body = { status: 'success', data: record };
     } else {
