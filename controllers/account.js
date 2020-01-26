@@ -65,6 +65,13 @@ module.exports = {
       where: { id: user.id },
       attributes: model.UserAttrs
     });
+    const latestKycRecord = await model.Kyc.findOne({
+      where: { userId: existed.id },
+      attributes: ["resultCode", "resultMessage", "errorMessage", "realName", "realId", "uniqueHash", "passedAt"],
+      order: [["createdAt", "DESC"]]
+    });
+    existed = existed.get({ plain: true })
+    existed.kyc = latestKycRecord
     ctx.body = { status: 'success', data: existed };
   },
 
