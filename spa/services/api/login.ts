@@ -1,9 +1,9 @@
 import http from '~/services/http'
-import { IAuth } from '~/services/interface/login'
+import { IAuth, ILogin } from '~/services/interface/login'
 
-export const login = (): Promise<IAuth> => http.post('/login')
+export const login = (data: ILogin): Promise<IAuth> => http.post('/auth/login', { data })
 
-export const reg = (): Promise<IAuth> => http.post('/reg')
+export const reg = (): Promise<IAuth> => http.post('/auth/register')
 
 export const loginTest = (): Promise<IAuth> => {
   return new Promise((resolve, reject) => {

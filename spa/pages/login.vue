@@ -28,9 +28,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { loginTest, reg } from '@/services/api/login'
-import { IRequirement } from '@/services/interface'
-import RequirementItem from '@/components/RequirementItem.vue'
+import { login, reg } from '@/services/api/login'
+import { ILogin } from '@/services/interface/login'
 import LoginForm from '@/components/LoginForm.vue'
 import RegForm from '@/components/RegForm.vue'
 import setToken from '@/utils/setToken'
@@ -43,17 +42,15 @@ import setToken from '@/utils/setToken'
     }
   },
   components: {
-    RequirementItem,
     LoginForm,
     RegForm
   }
 })
 class LoginPage extends Vue {
-  requirements: Array<IRequirement> | [] = []
-
-  loading = false
-  tab = 0
-  formData = {
+  lock: boolean = false
+  loading: boolean = false
+  tab: number = 0
+  formData: ILogin = {
     username: '',
     password: ''
   }
@@ -66,40 +63,52 @@ class LoginPage extends Vue {
     // this.init()
   }
 
-  async login () {
-    console.log('Enter login', this.formData)
-    // 开启 Loading 状态
-    this.loading = true
+  async submit (type: string) {
+    if (this.lock) {
+      return
+    }
 
-    const loginData = {
+    // 开启 Loading 和 Lock 状态
+    this.loading = true
+    this.lock = true
+
+    const submitData: ILogin = {
       username: this.formData.username,
       password: this.formData.password
     }
 
     try {
-      const res = await loginTest(loginData)
-      await setToken(res.token)
+      let res: any
+      if (type === 'login') {
+        res = await login(submitData)
+      } else {
+        res = await reg(submitData)
+      }
+      console.log('login/reg res:', res)
 
-      // 取消 Loading 状态
+      // 保存 token 到 localStorage
+      await setToken(res.data.access_token)
+
+      // 取消 Loading 和 Lock 状态
       this.loading = false
-      console.log('login res:', res)
+      this.lock = false
 
-      // 将 Token 存在本地
+      // 跳转到列表界面
+      this.$router.push('/')
     } catch (error) {
+      // 取消 Loading 和 Lock 状态
+      this.loading = false
+      this.lock = false
       this.$errorHandler(this.$toast.bind(this), error)
     }
   }
 
-  async reg () {
-    console.log('Enter login', this.formData)
+  async login () {
+    await this.submit('login')
+  }
 
-    try {
-      const res = await reg()
-      console.log(res)
-      // 将 Token 存在本地
-    } catch (error) {
-      this.$errorHandler(this.$toast.bind(this), error)
-    }
+  async reg () {
+    await this.submit('reg')
   }
 }
 export default LoginPage
