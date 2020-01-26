@@ -2,8 +2,10 @@ const passport = require("koa-passport");
 const passportJWT = require("passport-jwt");
 const User = require("./model/user");
 const conf = require("./config");
+const cryptoUtils = require("./utils/crypto-utils");
 
 const WeiboStrategy = require("passport-weibo").Strategy;
+const LocalStrategy = require('passport-local').Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const JWTStrategy   = passportJWT.Strategy;
 
@@ -43,6 +45,18 @@ passport.use(
     }
   )
 );
+
+passport.use(new LocalStrategy({}, async (username, password, done) => {
+  const user = await User.findOne({ where: { username: username } })
+  if (user) {
+    const hash = cryptoUtils.genPasswordHash(password, user.salt)
+    if (user.password === hash) {
+      return done(null, user);
+    }
+  }
+  return done(null, null);
+}));
+
 
 passport.use(new JWTStrategy({
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),

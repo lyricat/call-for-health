@@ -47,10 +47,13 @@ module.exports = {
       await next();
     });
     router
-      // auth
+      // auth & account
+      .post("/auth/register", ctrl.account.register)
+      .post("/auth/login", ctrl.account.login)
       .get ("/auth/weibo", ctrl.account.authWeibo)
-      .get ("/auth/weibo/callback", ctrl.account.authWeiboCallback)
+      .post("/auth/weibo/callback", ctrl.account.authWeiboCallback)
       .get ("/auth/weibo/done", authRequired, ctrl.account.authWeiboDone)
+      .get ("/account/me", jwtAuthRequired, ctrl.account.me)
 
       // kyc
       .post("/kyc/faceid/start", jwtAuthRequired, ctrl.account.kycFaceIdStart)

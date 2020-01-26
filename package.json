@@ -24,6 +24,7 @@
     "node-cron": "^2.0.3",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
     "passport-weibo": "^0.1.2",
     "sequelize": "^5.21.3",
     "uuid": "^3.3.3"

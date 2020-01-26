@@ -7,13 +7,21 @@ const User = db.getDB().define("user", {
     autoIncrement: true,
     primaryKey: true
   },
+  username: {
+    type: Sequelize.STRING,
+  },
+  password: {
+    type: Sequelize.STRING,
+  },
+  salt: {
+    type: Sequelize.STRING,
+  },
   name: {
     type: Sequelize.STRING,
     allowNull: false
   },
   weiboId: {
     type: Sequelize.STRING,
-    allowNull: false
   },
   kycState: {
     type: Sequelize.INTEGER,
@@ -21,7 +29,6 @@ const User = db.getDB().define("user", {
   },
   role: {
     type: Sequelize.STRING,
-    allowNull: false
   },
   createdAt: {
     type: Sequelize.TIME

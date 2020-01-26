@@ -11,6 +11,7 @@
     "host": "your-db-host",
     "port": 3306
   },
+  "secret_salt": "...",
   "public_key_file": "./keys/pub.key",
   "private_key_file": "./keys/priv.key",
   "kyc_public_key_file": "./keys/kyc-pub.key",
