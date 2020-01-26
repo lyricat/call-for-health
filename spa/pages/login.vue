@@ -92,8 +92,8 @@ class LoginPage extends Vue {
       this.loading = false
       this.lock = false
 
-      // 跳转到列表界面
-      this.$router.push('/')
+      // goto Me Page
+      this.$router.push('/me')
     } catch (error) {
       // 取消 Loading 和 Lock 状态
       this.loading = false
