@@ -66,18 +66,10 @@ module.exports = {
   handleCreate: async function(ctx) {
     let createData = ctx.request.body;
     let user = ctx.state.user;
-    let products = []
 
     if (createData.text.length === 0 || createData.products.length === 0) {
       ctx.body = { status: 401, error: 'Invalid content'};
       return;
-    }
-    for (let index = 0; index < createData.products.length; index++) {
-      const productId = createData.products[index];
-      const count = await model.Product.count({ where: { id: productId } })
-      if (count !== 0) {
-        products.push(productId)
-      }
     }
 
     let text = createData.text;
@@ -87,7 +79,7 @@ module.exports = {
       creatorId: user.id,
       txId: '',
       text: text,
-      products: products
+      products: createData.products
     });
 
     if (config.network_gateway.enabled) {

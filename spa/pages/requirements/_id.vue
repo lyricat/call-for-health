@@ -36,7 +36,7 @@ class IndexPage extends Vue {
   loading = false
 
   get title () {
-    return this.requirement.text
+    return '需求详情'
   }
 
   mounted () {
