@@ -1,25 +1,7 @@
 const model = require("../model");
 const metadb = require("../metadb");
 const config = require("../config.json");
-
-const buildOnChainRecord = function (user, action, payload) {
-  switch (action) {
-    case 'NEW_REQ':
-      return {
-        a: action,
-        id: payload.requirementId,
-        op_id: user.id,
-      }
-    case 'CHANGE_STATUS':
-      return {
-        a: action,
-        id: payload.requirementId,
-        txid: payload.requirementTxId,
-        stat: payload.status,
-        op_id: user.id,
-      }
-  }
-}
+const { buildOnChainRecord } = require('../utils/view')
 
 module.exports = {
   list: async function(ctx) {
@@ -40,6 +22,19 @@ module.exports = {
         status: model.RequirementStatus.CONFIRMED,
         creatorId: ctx.state.user.id
       },
+      include: [{
+        model: model.User,
+        attributes: model.UserAttrs,
+        as: 'creator'
+      }],
+    })
+    ctx.body = { status: 'success', data: records };
+  },
+
+  listAttachments: async function (ctx) {
+    const requirementId = ctx.params.id
+    let records = await model.Attachment.findAll({
+      where: { requirementId: requirementId },
       include: [{
         model: model.User,
         attributes: model.UserAttrs,
@@ -158,5 +153,43 @@ module.exports = {
     } else {
       ctx.body = { status: 403, error: 'incorrect request'}
     }
+  },
+
+  handleCreateAttachment: async function(ctx) {
+    const requirementId = ctx.params.id
+    const attachmentData = ctx.request.body;
+    const user = ctx.state.user;
+    let data = attachmentData.data
+    let txId = '';
+    // 1. insert into db
+    let item = await model.Attachment.create({
+      creatorId: user.id,
+      requirementId: requirementId,
+      txId: '',
+      type: 'TEXT',
+      data: data
+    });
+
+    if (config.network_gateway.enabled) {
+      // 2. create a item in network
+      try {
+        const onChainData = buildOnChainRecord(user, 'NEW_ATTACHMENT', {
+          requirementId: item.id,
+          text: data.slice(0, 128)
+        })
+        const resp = await metadb.seal(onChainData);
+        txId = resp.data.transaction_hash;
+      } catch (e) {
+        ctx.body = { status: 503, error: "Failed to write to TestNet: " + e.message};
+        return;
+      }
+
+      // 3. update tx id
+      item.update({ txId: txId })
+    }
+
+    let itemExported = item.get({ plain: true });
+    itemExported.creator = user.get({ plain: true });
+    ctx.body = { status: 'success', data: itemExported };
   }
 };
