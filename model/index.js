@@ -1,7 +1,6 @@
 const User = require("./user");
 const Kyc = require("./kyc");
 const Requirement = require("./requirement");
-const Product = require("./product");
 
 User.hasMany(Requirement, {
   foreignKey:'creatorId', sourceKey:'id', as: 'requirements'
@@ -21,6 +20,5 @@ module.exports = {
   User: User,
   Kyc: Kyc,
   Requirement: Requirement,
-  Product: Product,
   RequirementStatus: RequirementStatus
 };
