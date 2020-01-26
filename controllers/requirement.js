@@ -1,5 +1,6 @@
 const model = require("../model");
 const metadb = require("../metadb");
+const config = require("../config.json");
 
 const buildOnChainRecord = function (user, action, payload) {
   switch (action) {
@@ -89,18 +90,20 @@ module.exports = {
       products: products
     });
 
-    // 2. create a item in network
-    try {
-      const onChainData = buildOnChainRecord(user, 'NEW_REQ', {requirementId: item.id})
-      resp = await metadb.seal(onChainData);
-      txId = resp.data.transaction_hash;
-    } catch (e) {
-      ctx.body = { status: 503, error: "Failed to write to TestNet: " + e.message};
-      return;
-    }
+    if (config.network_gateway.enabled) {
+      // 2. create a item in network
+      try {
+        const onChainData = buildOnChainRecord(user, 'NEW_REQ', {requirementId: item.id})
+        resp = await metadb.seal(onChainData);
+        txId = resp.data.transaction_hash;
+      } catch (e) {
+        ctx.body = { status: 503, error: "Failed to write to TestNet: " + e.message};
+        return;
+      }
 
-    // 3. update tx id
-    item.update({ txId: txId })
+      // 3. update tx id
+      item.update({ txId: txId })
+    }
 
     let itemExported = item.get({ plain: true });
     itemExported.creator = user.get({ plain: true });
@@ -119,20 +122,23 @@ module.exports = {
         ctx.body = { status: 404, error: 'not found'}
         return
       }
-      var resp, txId;
+      let resp = {};
+      let txId = '';
 
-      // 1. create a item in network
-      try {
-        const onChainData = buildOnChainRecord(user, 'CHANGE_STATUS', {
-          requirementId: record.id,
-          requirementTxId: record.latestTxId || record.txId,
-          status: updateData.status
-        })
-        resp = await metadb.seal(onChainData);
-        txId = resp.data.transaction_hash;
-      } catch (e) {
-        ctx.body = { status: 503, error: "failed to write to TestNet: " + e.message};
-        return;
+      if (config.network_gateway.enabled) {
+        // 1. create a item in network
+        try {
+          const onChainData = buildOnChainRecord(user, 'CHANGE_STATUS', {
+            requirementId: record.id,
+            requirementTxId: record.latestTxId || record.txId,
+            status: updateData.status
+          })
+          resp = await metadb.seal(onChainData);
+          txId = resp.data.transaction_hash;
+        } catch (e) {
+          ctx.body = { status: 503, error: "failed to write to TestNet: " + e.message};
+          return;
+        }
       }
 
       // 2. update the db record

@@ -16,10 +16,12 @@
   "kyc_public_key_file": "./keys/kyc-pub.key",
   "kyc_private_key_file": "./keys/kyc-priv.key",
   "network_gateway": {
+    "enabled": false,
     "host": "https://testnet-gateway-host",
     "access_token": "YOUR_TOKEN"
   },
   "faceid": {
+    "enabled": false,
     "api_key": "...",
     "api_secret": "...",
     "return_url": "https://YOUR_HOST_NAME/kyc/faceid/callback",

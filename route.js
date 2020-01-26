@@ -1,6 +1,7 @@
 const Router = require("koa-router");
 const passport = require("koa-passport");
 const ctrl = require("./controllers");
+const config = require("./config.json");
 
 let router = new Router();
 
@@ -17,6 +18,9 @@ function jwtAuthRequired(ctx, next) {
 }
 
 function kycRequired(ctx, next) {
+  if (!config.faceid.enabled) {
+    return next()
+  }
   if (ctx.state.user) {
     if (ctx.state.user.kycState === 1) {
       return next();
