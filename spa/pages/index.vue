@@ -10,6 +10,20 @@
           :requirement="req"
         ></requirement-item>
       </v-flex>
+      <v-fab-transition>
+        <v-btn
+          :color="color"
+          fab
+          absolute
+          large
+          bottom
+          right
+          class="v-btn--example"
+          href="#/requirements/add"
+        >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </v-fab-transition>
     </v-container>
   </loading>
 </template>
@@ -35,6 +49,8 @@ class IndexPage extends Vue {
   requirements: Array<IRequirement> | [] = [];
 
   loading = false
+  color = ''
+  icon = ''
 
   get title () {
     return this.$t('hello')
@@ -48,6 +64,8 @@ class IndexPage extends Vue {
     this.loading = true
     await this.requesUser()
     this.loading = false
+    this.color = 'red'
+    this.icon = 'mdi-plus'
   }
 
   async requesUser () {

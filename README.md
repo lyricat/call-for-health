@@ -29,3 +29,19 @@
 ## 前端在哪？
 
 `spa` 目录中是本项目的前端程序
+
+## 如何运行
+
+在根目录下 / 和 /spa 分别执行 npm install
+
+配置 /config.json
+
+首次使用之前先运行 `node index.js gen-keys` 两次
+
+然后把生成的 pub key 和 priv key 分别放到 `keys/pub.key keys/priv.key keys/kyc-pub.key keys/kyc-priv.key`
+
+/ 执行 `node index.js serve`
+
+/spa 执行 `npm run dev`
+
+访问 `http://***.***.***.***:3000/`
