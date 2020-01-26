@@ -54,6 +54,7 @@ module.exports = {
       .post("/auth/weibo/callback", ctrl.account.authWeiboCallback)
       .get ("/auth/weibo/done", authRequired, ctrl.account.authWeiboDone)
       .get ("/account/me", jwtAuthRequired, ctrl.account.me)
+      .get ("/account/me/requirements", jwtAuthRequired, ctrl.requirement.listMine)
 
       // kyc
       .post("/kyc/faceid/start", jwtAuthRequired, ctrl.account.kycFaceIdStart)

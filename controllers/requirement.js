@@ -34,6 +34,21 @@ module.exports = {
     ctx.body = { status: 'success', data: records };
   },
 
+  listMine: async function(ctx) {
+    let records = await model.Requirement.findAll({
+      where: {
+        status: model.RequirementStatus.CONFIRMED,
+        creatorId: ctx.state.user.id
+      },
+      include: [{
+        model: model.User,
+        attributes: model.UserAttrs,
+        as: 'creator'
+      }],
+    })
+    ctx.body = { status: 'success', data: records };
+  },
+
   single: async function(ctx) {
     let id = ctx.params.id;
     let record = await model.Requirement.findOne({
