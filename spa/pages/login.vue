@@ -14,7 +14,6 @@
       <v-col cols="12">
         <v-tabs-items v-model="tab" class="tabs-item-section" dark>
           <v-tab-item key="login">
-            <!-- {{ formData.username }} -->
             <LoginForm :form-data.sync="formData" :loading="loading" @handleSubmit="login" />
           </v-tab-item>
           <v-tab-item key="reg">
