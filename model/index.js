@@ -1,7 +1,6 @@
 const User = require("./user");
 const Kyc = require("./kyc");
 const Requirement = require("./requirement");
-const Product = require("./product");
 
 User.hasMany(Requirement, {
   foreignKey:'creatorId', sourceKey:'id', as: 'requirements'
@@ -17,10 +16,12 @@ const RequirementStatus = {
   HIDDEN: 'HIDDEN'
 }
 
+const UserAttrs = ['id', 'username', 'weiboid', 'name', 'kycState', 'role', 'createdAt', 'updatedAt']
+
 module.exports = {
   User: User,
   Kyc: Kyc,
   Requirement: Requirement,
-  Product: Product,
-  RequirementStatus: RequirementStatus
+  RequirementStatus: RequirementStatus,
+  UserAttrs: UserAttrs
 };
