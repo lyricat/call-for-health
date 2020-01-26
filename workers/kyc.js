@@ -1,5 +1,4 @@
 const kyc = require("../utils/kyc");
-const cache = require("../cache");
 const model = require("../model");
 const cryptoUtils = require("../utils/crypto-utils");
 

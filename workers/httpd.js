@@ -1,4 +1,5 @@
 const Koa = require("koa");
+const cors = require('@koa/cors');
 const bodyParser = require("koa-bodyparser");
 const session = require("koa-session");
 const passport = require("koa-passport");
@@ -8,6 +9,7 @@ const conf = require("../config.json");
 
 const run = function(worker) {
   const app = new Koa();
+  app.use(cors());
 
   // body parser
   app.use(bodyParser());
