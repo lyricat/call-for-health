@@ -55,7 +55,7 @@ class LoginPage extends Vue {
   }
 
   get title () {
-    return this.$t('hello')
+    return '注册与登录'
   }
 
   mounted () {
@@ -86,7 +86,7 @@ class LoginPage extends Vue {
       console.log('login/reg res:', res)
 
       // 保存 token 到 localStorage
-      await setToken(res.data.access_token)
+      await setToken(res.access_token)
 
       // 取消 Loading 和 Lock 状态
       this.loading = false
