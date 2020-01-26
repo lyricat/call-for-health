@@ -54,6 +54,7 @@ module.exports = {
       .post("/auth/weibo/callback", ctrl.account.authWeiboCallback)
       .get ("/auth/weibo/done", authRequired, ctrl.account.authWeiboDone)
       .get ("/account/me", jwtAuthRequired, ctrl.account.me)
+      .get ("/account/me/requirements", jwtAuthRequired, ctrl.requirement.listMine)
 
       // kyc
       .post("/kyc/faceid/start", jwtAuthRequired, ctrl.account.kycFaceIdStart)
@@ -66,6 +67,8 @@ module.exports = {
       .get ("/requirements/:id", ctrl.requirement.single)
       .post("/requirements", jwtAuthRequired, kycRequired, ctrl.requirement.handleCreate)
       .put ("/requirements/:id/status", jwtAuthRequired, kycRequired, isVolunteer, ctrl.requirement.handleUpdateStatus)
+      .post("/requirements/:id/attachments", jwtAuthRequired, kycRequired, ctrl.requirement.handleCreateAttachment)
+      .get ("/requirements/:id/attachments", jwtAuthRequired, ctrl.requirement.listAttachments)
 
       // products api
       // @TODO: create and update

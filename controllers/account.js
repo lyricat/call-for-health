@@ -30,6 +30,9 @@ module.exports = {
         user = user.get({ plain: true });
         delete user.password
         delete user.salt
+
+        const token = jwt.sign(user, 'jwt_secret_1234');
+        user.access_token = token;
         ctx.body = { status: 'success', data: user };
       } else {
         ctx.status = 400;
@@ -62,6 +65,13 @@ module.exports = {
       where: { id: user.id },
       attributes: model.UserAttrs
     });
+    const latestKycRecord = await model.Kyc.findOne({
+      where: { userId: existed.id },
+      attributes: ["resultCode", "resultMessage", "errorMessage", "realName", "realId", "uniqueHash", "passedAt"],
+      order: [["createdAt", "DESC"]]
+    });
+    existed = existed.get({ plain: true })
+    existed.kyc = latestKycRecord
     ctx.body = { status: 'success', data: existed };
   },
 
@@ -120,6 +130,7 @@ module.exports = {
 
   kycFaceIdCallback: async function (ctx) {
     console.log("kycFaceIdCallback:", ctx);
+    ctx.body = "实名认证已提交。请回到网站，查看认证状态。"
   },
 
   kycFaceIdNotifyCallback: async function (ctx) {

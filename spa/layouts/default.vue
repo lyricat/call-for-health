@@ -1,15 +1,39 @@
 <template>
-  <v-app>
+  <v-app class="app">
     <v-app-bar
       app
       :flat="true"
-      color="teal lighten-3"
     >
       <v-toolbar-title class="headline text-uppercase">
         <span>Call for </span>
         <span class="font-weight-bold">HEALTH</span>
       </v-toolbar-title>
       <v-spacer />
+
+      <v-menu
+        bottom
+        left
+      >
+        <template v-slot:activator="{ on }">
+          <v-btn
+            icon
+            color="black"
+            v-on="on"
+          >
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item @click="gotoLogin">
+            <v-list-item-title>登录/注册</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="gotoMe">
+            <v-list-item-title>我的主页</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+
     </v-app-bar>
 
     <v-content>
@@ -38,9 +62,20 @@ class DefaultLayout extends Vue {
   set snackbar (val) {
     this.setSnackbar(val)
   }
+
+  gotoLogin () {
+    this.$router.push('/login')
+  }
+
+  gotoMe () {
+    this.$router.push('/me')
+  }
 }
 export default DefaultLayout
 </script>
 
 <style lang="scss" scoped>
+.app{
+  min-height: 100%;
+}
 </style>
