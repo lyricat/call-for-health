@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="app">
     <v-app-bar
       app
       :flat="true"
@@ -43,4 +43,7 @@ export default DefaultLayout
 </script>
 
 <style lang="scss" scoped>
+.app{
+  min-height: 100%;
+}
 </style>
