@@ -30,6 +30,9 @@ module.exports = {
         user = user.get({ plain: true });
         delete user.password
         delete user.salt
+
+        const token = jwt.sign(user, 'jwt_secret_1234');
+        user.access_token = token;
         ctx.body = { status: 'success', data: user };
       } else {
         ctx.status = 400;
