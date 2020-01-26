@@ -45,3 +45,15 @@ CREATE TABLE `users` (
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `attachments` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `creatorId` int(11) DEFAULT NULL,
+  `requirementId` int(11) DEFAULT NULL,
+  `type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `data` text COLLATE utf8mb4_unicode_ci,
+  `txId` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `createdAt` datetime DEFAULT NULL,
+  `updatedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
