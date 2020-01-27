@@ -1,3 +1,4 @@
+/* eslint-disable prefer-promise-reject-errors */
 import axios, { AxiosRequestConfig } from 'axios'
 import { HOST } from '@/constants'
 import getToken from '@/utils/getToken'
@@ -14,41 +15,45 @@ const defaults: AxiosRequestConfig = {
 const instance = axios.create(defaults)
 
 instance.interceptors.request.use(
-  async configs => {
+  async (configs) => {
     const token = await getToken()
     if (token) {
       configs.headers.Authorization = `Bearer ${token}`
     }
     return configs
   },
-  error => {}
+  () => {}
 )
 
 instance.interceptors.response.use(
-  res => {
+  (res) => {
+    if (res.data.status !== 'success') {
+      const { status, data } = res.data
+      return Promise.reject({ status, message: data })
+    }
     return res.data
   },
-  err => {
+  (err) => {
     if (err.response && err.response.data) {
-      const { status, error } = err.response.data
-      return Promise.reject({ status, error })
+      const { status, data } = err.response.data
+      return Promise.reject({ status, message: data })
     } else {
       return Promise.reject({ status: -1 })
     }
   }
 )
 
-async function request(options: AxiosRequestConfig): Promise<any> {
+async function request (options: AxiosRequestConfig): Promise<any> {
   const res = await instance.request(options)
   return Promise.resolve(res.data)
 }
 
 export default {
-  config(options: AxiosRequestConfig) {
+  config (options: AxiosRequestConfig) {
     instance.defaults.baseURL = options.baseURL
   },
 
-  post(url: string, options: AxiosRequestConfig = {}) {
+  post (url: string, options: AxiosRequestConfig = {}) {
     const config = {
       url,
       method: 'post',
@@ -57,7 +62,7 @@ export default {
     return request(config)
   },
 
-  get(url: string, options: AxiosRequestConfig = {}): Promise<any> {
+  get (url: string, options: AxiosRequestConfig = {}): Promise<any> {
     const config = {
       url,
       method: 'get',
@@ -66,7 +71,7 @@ export default {
     return request(config)
   },
 
-  delete(url: string, options: AxiosRequestConfig = {}): Promise<any> {
+  delete (url: string, options: AxiosRequestConfig = {}): Promise<any> {
     const config = {
       url,
       method: 'delete',

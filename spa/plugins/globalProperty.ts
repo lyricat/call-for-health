@@ -1,13 +1,14 @@
 import Vue from 'vue'
-import { mdiArrowLeft } from '@mdi/js'
+import { mdiArrowLeft, mdiDotsVertical } from '@mdi/js'
+import * as moment from 'moment'
 import errorHandler from '@/utils/errorHandler'
 import copyUtil from '@/utils/copyUtil'
 import autolink from '@/utils/autolink'
-import * as moment from 'moment';
 
 export default () => {
   Vue.prototype.$icons = {
-    mdiArrowLeft
+    mdiArrowLeft,
+    mdiDotsVertical
   }
 
   Vue.prototype.$toast = function (data: { message: string; color: string }) {

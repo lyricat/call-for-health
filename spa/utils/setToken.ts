@@ -1,4 +1,4 @@
-export default async (res: string) => {
+export default function (res: string) {
   try {
     const token = localStorage.setItem('token', res)
     return token
