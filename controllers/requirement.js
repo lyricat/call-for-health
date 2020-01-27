@@ -81,6 +81,11 @@ module.exports = {
       return;
     }
 
+    let status = 'PENDING'
+    if (user.role === 'VOLUNTEER') {
+      status = 'CONFIRMED'
+    }
+
     var resp, txId;
     // 1. insert into db
     let item = await model.Requirement.create({
@@ -89,7 +94,8 @@ module.exports = {
       text: createData.text,
       location: createData.location,
       contacts: createData.contacts,
-      products: createData.products
+      products: createData.products,
+      status: status
     });
 
     if (config.network_gateway.enabled) {
