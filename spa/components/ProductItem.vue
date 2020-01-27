@@ -6,7 +6,7 @@
     <div class="body-2 ml-2 model">
       {{ product.model }}
     </div>
-    <div v-if="product.amount !== -1" class="body-2 grow text-right">
+    <div v-if="product.amount" class="body-2 grow text-right">
       x{{ product.amount }}
     </div>
   </div>

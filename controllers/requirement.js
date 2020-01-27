@@ -20,7 +20,6 @@ module.exports = {
   listMine: async function(ctx) {
     let records = await model.Requirement.findAll({
       where: {
-        status: model.RequirementStatus.CONFIRMED,
         creatorId: ctx.state.user.id
       },
       include: [{
