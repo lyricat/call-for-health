@@ -1,3 +1,4 @@
+
 <template>
   <loading :loading="loading" :fullscreen="false">
     <v-container>
@@ -7,22 +8,13 @@
           :full="true"
         ></requirement-item>
       </v-flex>
-      <v-card outlined v-if="attachments.length !== 0">
-        <v-card-text>
-          <v-flex class="attachments">
-            <div class="overline">附言</div>
-            <div
-              class="attachment caption"
-              v-for="attachment in attachments"
-              v-bind:key="attachment.id"
-            >
-              <span>{{attachment.creator.name}} 附言：</span>
-              <span v-if="attachment.type === 'TEXT'">
-                {{attachment.data}}
-              </span>
-              <span v-else>不支持的附件类型</span>
-            </div>
+      <v-card outlined>
+        <v-card-text class="d-flex flex-row">
+          <v-flex class="body-2">
+            请截图保存到相册。<br/>
+            扫码查看最新的需求情况。
           </v-flex>
+          <qr-code :value="qrcodeUrl"/>
         </v-card-text>
       </v-card>
     </v-container>
@@ -31,9 +23,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { getRequirement, getAttachments } from '@/services/api'
-import { IRequirement, IAttachment } from '@/services/interface'
+import { getRequirement } from '@/services/api'
+import { IRequirement } from '@/services/interface'
 import RequirementItem from '@/components/RequirementItem.vue'
+import { WEB_HOST } from '@/constants'
 
 @Component({
   middleware: 'i18n',
@@ -48,12 +41,16 @@ import RequirementItem from '@/components/RequirementItem.vue'
 })
 class IndexPage extends Vue {
   requirement: IRequirement | {} = {};
-  attachments: Array<IAttachment> | [] = [];
+  requirementId: string = ''
 
   loading = false
 
   get title () {
     return '需求详情'
+  }
+
+  get qrcodeUrl () {
+    return `${WEB_HOST}/#/requirements/${this.requirementId}`
   }
 
   mounted () {
@@ -63,6 +60,7 @@ class IndexPage extends Vue {
   async init () {
     this.loading = true
     const id = this.$route.params.id
+    this.requirementId = id
     await this.request(id)
     this.loading = false
   }
@@ -71,9 +69,6 @@ class IndexPage extends Vue {
     try {
       const requirement = await getRequirement(id)
       this.requirement = requirement
-      getAttachments(id).then((attachments) => {
-        this.attachments = attachments
-      })
     } catch (error) {
       this.$errorHandler(this.$toast.bind(this), error)
     }
@@ -83,7 +78,4 @@ export default IndexPage
 </script>
 
 <style lang="scss" scoped>
-.attachments {
-  background: rgba(0,0,0,0.01);
-}
 </style>
