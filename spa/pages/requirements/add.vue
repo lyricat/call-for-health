@@ -109,7 +109,6 @@ class IndexPage extends Vue {
       contacts: this.hosiptalData.hospitalCellphone,
       products: this.supplies
     }
-    console.log(submitData)
     if (this.$refs.form.validate()) {
       try {
         await add(submitData)
@@ -168,7 +167,7 @@ export default IndexPage
 .alert-supplies-item{
   width: 90%;
   position: fixed;
-  top:50px;
+  top:150px;
   left:50%;
   transform: translate(-50%,-50%);
   z-index: 1000;
