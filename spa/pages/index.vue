@@ -14,26 +14,29 @@
           :requirement="req"
         />
       </v-flex>
-      <v-fab-transition>
-        <v-btn
-          :color="color"
-          fab
-          fixed
-          large
-          bottom
-          right
-          class="v-btn--add-requirement"
-          href="#/requirements/add"
-        >
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-      </v-fab-transition>
+      <template v-if="passedKyc">
+        <v-fab-transition>
+          <v-btn
+            color="primary"
+            fab
+            fixed
+            large
+            bottom
+            right
+            class="v-btn--add-requirement"
+            href="#/requirements/add"
+          >
+            <v-icon>{{ $icons.mdiPlus }}</v-icon>
+          </v-btn>
+        </v-fab-transition>
+      </template>
     </v-container>
   </loading>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { Getter } from 'vuex-class'
 import { getRequirements } from '@/services/api'
 import { IRequirement } from '@/services/interface'
 import RequirementItem from '@/components/RequirementItem.vue'
@@ -46,21 +49,23 @@ import RequirementItem from '@/components/RequirementItem.vue'
 })
 class IndexPage extends Vue {
   requirements: Array<IRequirement> | [] = [];
-
   loading = false
   color = ''
-  icon = ''
+
+  @Getter('user/passedKyc') passedKyc
 
   mounted () {
     this.init()
+  }
+
+  get kycPassed () {
+    return false
   }
 
   async init () {
     this.loading = true
     await this.request()
     this.loading = false
-    this.color = 'red'
-    this.icon = 'mdi-plus'
   }
 
   async request () {

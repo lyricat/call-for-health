@@ -1,6 +1,9 @@
 <template>
   <loading :loading="loading" :fullscreen="false">
     <v-container>
+      <v-flex v-if="notConfirmed" class="hint hint-warning caption">
+        <p>本需求尚未得到确认，请等待志愿者确认本需求。</p>
+      </v-flex>
       <v-flex>
         <requirement-item
           :requirement="requirement"
@@ -25,7 +28,7 @@
           </v-flex>
         </v-card-text>
       </v-card>
-      <v-flex class="mt-2">
+      <v-flex v-if="confirmed" class="mt-2">
         <v-btn block color="primary" depressed class="mb-2" @click="showShare = true">分享</v-btn>
         <v-btn block color="primary" outlined @click="gotoScreenshot">保存图片</v-btn>
       </v-flex>
@@ -66,6 +69,14 @@ class IndexPage extends Vue {
       return this.requirement.text
     }
     return '需求详情'
+  }
+
+  get notConfirmed () {
+    return this.requirement && this.requirement.status === 'PENDING'
+  }
+
+  get confirmed () {
+    return this.requirement && this.requirement.status === 'CONFIRMED'
   }
 
   mounted () {

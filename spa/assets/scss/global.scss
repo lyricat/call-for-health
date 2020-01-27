@@ -11,3 +11,15 @@
   }
 }
 
+.hint {
+  padding: 8px 15px;
+  margin-bottom: 1em;
+  &.hint-warning {
+    background: rgb(255, 254, 219);
+    color: rgb(197, 105, 0);
+  }
+  p {
+    margin: 0 0 4px 0 !important;
+  }
+}
+

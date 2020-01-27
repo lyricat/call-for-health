@@ -1,25 +1,22 @@
 <template>
   <loading :loading="loading" :fullscreen="false">
     <v-container>
-      <v-alert v-model="suppliesItemAlert" class="alert-supplies-item" type="error" dismissible>
-        最少需要一个物资需求
-      </v-alert>
       <v-form ref="form" v-model="valid" lazy-validation>
-        <v-subheader>基本信息</v-subheader>
         <div class="information-content">
           <v-text-field v-model="hosiptalData.hospitalName" :rules="rules.hospitalName" required label="医院名称"></v-text-field>
           <v-text-field v-model="hosiptalData.hospitalAddress" :rules="rules.hospitalAddress" required label="医院地址"></v-text-field>
-          <v-text-field v-model="hosiptalData.hospitalCellphone" :rules="rules.hospitalCellphone" required label="电话号码"></v-text-field>
+          <v-text-field v-model="hosiptalData.hospitalCellphone" :rules="rules.hospitalCellphone" required label="联系方式"></v-text-field>
         </div>
         <v-subheader>物资需求</v-subheader>
         <v-card
           class="supplies"
+          outlined
           v-for="(item, i) in supplies"
           :key="i"
         >
           <div class="supplies-content">
             <v-text-field v-model="supplies[i].name" :rules="rules.productName" required label="产品名称" single-line></v-text-field>
-            <v-text-field v-model="supplies[i].model" single-line :rules="rules.productModel" required label="产品型号"></v-text-field>
+            <v-text-field v-model="supplies[i].model" single-line :rules="rules.productModel" required label="型号或者标准"></v-text-field>
             <v-text-field v-model="supplies[i].amount" single-line :rules="rules.productAmount" required label="需求量"></v-text-field>
           </div>
           <v-card-actions>
@@ -30,6 +27,8 @@
         <v-btn
           class="mr-4 add-button"
           @click="addItem"
+          outlined
+          block
         >
           添加需求
         </v-btn>
@@ -37,9 +36,10 @@
         <v-btn
           class="mr-4"
           color="success"
+          block
           @click="submit"
         >
-          确认
+          保存
         </v-btn>
       </v-form>
     </v-container>
@@ -59,10 +59,9 @@ import { IRequirement } from '@/services/interface'
     }
   }
 })
-class IndexPage extends Vue {
+class AddRequirementPage extends Vue {
   loading = false
   valid = true
-  suppliesItemAlert = false
 
   hosiptalData:IRequirement = {
     hospitalName: '',
@@ -93,7 +92,7 @@ class IndexPage extends Vue {
   delectItem (index) {
     const supplies = this.supplies
     if (this.supplies.length <= 1) {
-      this.suppliesItemAlert = true
+      this.$toast({ message: '最少需要一个物资需求', color: 'error' })
     } else {
       this.supplies = supplies.filter((e, i) => {
         console.log(e)
@@ -112,8 +111,10 @@ class IndexPage extends Vue {
     console.log(submitData)
     if (this.$refs.form.validate()) {
       try {
-        await add(submitData)
+        const resp = await add(submitData)
+        this.$router.replace('/requirements/' + resp.id)
       } catch (error) {
+        this.$toast({ message: error.toString(), color: 'error' })
       }
     }
   }
@@ -126,23 +127,21 @@ class IndexPage extends Vue {
 
   rules = {
     hospitalName: [
-      v => !!v || '请输入医院名称',
+      v => !!v || '请输入医院或者医疗机构名称',
       v => (v && v.length >= 3) || '不能少于三个字'
     ],
     hospitalAddress: [
-      v => !!v || '请输入地址',
+      v => !!v || '请输入地址，用来接收物资',
       v => (v && v.length >= 3) || '不能少于三个字'
     ],
     hospitalCellphone: [
-      v => !!v || '请输入手机号码',
-      v => (v && v.length === 11) || '请使用手机号码',
-      v => /^1[3456789]\d{9}$/.test(v) || '请输入正确的手机号码'
+      v => !!v || '请输入联系方式，比如“李萍 18812345678”'
     ],
     productName: [
       v => !!v || '请输入产品名称'
     ],
     productModel: [
-      v => !!v || '请输入产品型号'
+      v => !!v || '请输入型号或者标准'
     ],
     productAmount: [
       v => !!v || '请输入需求数量',
@@ -150,7 +149,7 @@ class IndexPage extends Vue {
     ]
   }
 }
-export default IndexPage
+export default AddRequirementPage
 </script>
 
 <style lang="scss" scoped>

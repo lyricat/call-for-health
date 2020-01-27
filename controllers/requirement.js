@@ -54,11 +54,11 @@ module.exports = {
         as: 'creator'
       }],
     })
-    if (record && record.status === model.RequirementStatus.CONFIRMED) {
+    if (record) {
       ctx.body = { status: 'success', data: record };
-    } else {
-      ctx.body = { status: 404, error: 'not found'}
+      return
     }
+    ctx.body = { status: 404, error: 'not found'}
   },
 
   singleWithTxId: async function(ctx) {
