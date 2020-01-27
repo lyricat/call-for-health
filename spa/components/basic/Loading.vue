@@ -2,7 +2,7 @@
   <div class="loading" :class="{ 'full-screen': fullscreen }" @click.stop>
     <div v-show="loading" class="loading-wrap" @click.stop>
       <div v-show="spinner" class="loading-spinner">
-        <v-progress-circular :width="3" color="white" indeterminate />
+        <v-progress-circular :width="3" color="primary" indeterminate />
       </div>
       <transition name="fade" :duration="200">
         <div v-if="loading" class="loading-hint">
@@ -50,7 +50,7 @@ export default class Loading extends Vue {
   min-height: 200px;
   transition: all 0.3s ease;
   min-height: 240px;
-  z-index: 1;
+  z-index: 5;
 
   &.full-screen {
     position: fixed;
@@ -69,7 +69,7 @@ export default class Loading extends Vue {
     width: 100%;
     height: 100%;
     padding: 20px;
-    z-index: 2;
+    z-index: 5;
 
     .loading-spinner {
       z-index: 4;
@@ -98,7 +98,7 @@ export default class Loading extends Vue {
 
   .loading-content {
     height: 100%;
-    z-index: 1;
+    z-index: 5;
   }
 }
 </style>
