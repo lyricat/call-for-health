@@ -12,6 +12,7 @@ module.exports = {
         attributes: model.UserAttrs,
         as: 'creator'
       }],
+      order: [["createdAt", "DESC"]]
     })
     ctx.body = { status: 'success', data: records };
   },
@@ -27,6 +28,7 @@ module.exports = {
         attributes: model.UserAttrs,
         as: 'creator'
       }],
+      order: [["createdAt", "DESC"]]
     })
     ctx.body = { status: 'success', data: records };
   },
@@ -40,6 +42,7 @@ module.exports = {
         attributes: model.UserAttrs,
         as: 'creator'
       }],
+      order: [["createdAt", "DESC"]]
     })
     ctx.body = { status: 'success', data: records };
   },
