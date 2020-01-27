@@ -22,6 +22,9 @@
             <v-list-item v-on="on">
               <v-list-item-title>我的主页</v-list-item-title>
             </v-list-item>
+            <v-list-item @click="handleLogout">
+              <v-list-item-title>退出登录</v-list-item-title>
+            </v-list-item>
           </template>
           <template #action-login="{ on }">
             <v-list-item v-on="on">
@@ -38,9 +41,17 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { Action } from 'vuex-class'
 
 @Component
 class Navbar extends Vue {
+  @Action('user/logout') logout
+
+  handleLogout () {
+    this.logout()
+    this.toHome()
+  }
+
   toHome () {
     return this.$router.push(this.localePath({ name: 'index' }))
   }

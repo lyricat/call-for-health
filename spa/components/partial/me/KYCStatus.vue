@@ -8,17 +8,19 @@
         <div class="body-2 mb-1">
           实名状态：{{ me.kycState === 0 ? '还没有实名' : '已经实名' }}
         </div>
-        <template v-if="passed">
-          <div class="body-2 mb-1">
-            姓名：{{ kyc.realName }}
-          </div>
-          <div class="body-2 mb-1">
-            身份证号：{{ kyc.realId }}
+        <template v-if="kyc">
+          <template v-if="passed">
+            <div class="body-2 mb-1">
+              姓名：{{ kyc.realName }}
+            </div>
+            <div class="body-2 mb-1">
+              身份证号：{{ kyc.realId }}
+            </div>
+          </template>
+          <div v-else class="body-2 mb-1">
+            认证消息：<span class="warning--text">{{ kyc.errorMessage || kyc.resultMessage }}</span>
           </div>
         </template>
-        <div v-else class="body-2 mb-1">
-          认证消息：<span class="warning--text">{{ kyc.errorMessage || kyc.resultMessage }}</span>
-        </div>
       </div>
       <v-btn
         v-if="me.kycState === 0"
