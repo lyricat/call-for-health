@@ -7,6 +7,7 @@ const defaults: AxiosRequestConfig = {
   baseURL: HOST,
   timeout: 10000,
   responseType: 'json',
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json;charset=utf-8'
   }

@@ -17,10 +17,13 @@
       </template>
 
       <v-list>
+        <v-list-item @click="toHome">
+          <v-list-item-title>首页</v-list-item-title>
+        </v-list-item>
         <login-require>
           <template #action-me="{ on }">
             <v-list-item v-on="on">
-              <v-list-item-title>我的主页</v-list-item-title>
+              <v-list-item-title>我的信息</v-list-item-title>
             </v-list-item>
             <v-list-item @click="handleLogout">
               <v-list-item-title>退出登录</v-list-item-title>

@@ -8,6 +8,18 @@ export const state = () => ({
 export const getters = {
   logged (state) {
     return state.profile
+  },
+  passedKyc (state) {
+    if (state && state.profile) {
+      return state.profile.kycState === 1
+    }
+    return false
+  },
+  isVoluneer (state) {
+    if (state && state.profile) {
+      return state.profile.role === 'VOLUNEER'
+    }
+    return false
   }
 }
 

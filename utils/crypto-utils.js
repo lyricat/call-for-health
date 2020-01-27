@@ -26,7 +26,7 @@ const encryptRsa = function(toEncrypt, publicKey) {
 
 const decryptRsa = function(toDecrypt, privateKey) {
   var buffer = Buffer.from(toDecrypt, "base64");
-  var decrypted = crypto.privateDecrypt(privateKey, buffer);
+  var decrypted = crypto.privateDecrypt({ key: privateKey, passphrase: "" }, buffer);
   return decrypted.toString("utf8");
 };
 
