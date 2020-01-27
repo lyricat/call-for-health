@@ -108,7 +108,7 @@ export default class RequirementItem extends Vue {
 .requirement-item {
   margin-bottom: 10px;
   .text {
-    color: #000;
+    color: #000 !important;
   }
   .requirement-section-title {
     border-bottom: 1px solid #ccc;
