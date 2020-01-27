@@ -6,7 +6,18 @@ export interface IUser {
   kycState: number,
   role: string,
   createdAt: string,
-  updatedAt: string
+  updatedAt: string,
+  kyc?: IKYC
+}
+
+export interface IKYC {
+  resultCode: number
+  resultMessage: string
+  errorMessage: string
+  realName: string
+  realId: string
+  uniqueHash: string
+  passedAt: string
 }
 
 export interface IRequirement {
@@ -40,4 +51,9 @@ export interface IProduct {
   description: string,
   createdAt: string,
   updatedAt: string
+}
+
+export interface ILogin {
+  username: string
+  password: string
 }

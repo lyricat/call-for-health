@@ -50,7 +50,7 @@ export default class Loading extends Vue {
   min-height: 200px;
   transition: all 0.3s ease;
   min-height: 240px;
-  z-index: 1000;
+  z-index: 1;
 
   &.full-screen {
     position: fixed;
@@ -69,10 +69,10 @@ export default class Loading extends Vue {
     width: 100%;
     height: 100%;
     padding: 20px;
-    z-index: 1002;
+    z-index: 2;
 
     .loading-spinner {
-      z-index: 1004;
+      z-index: 4;
       padding: 10px;
       box-sizing: content-box;
       border-radius: 5px;
@@ -98,7 +98,7 @@ export default class Loading extends Vue {
 
   .loading-content {
     height: 100%;
-    z-index: 1001;
+    z-index: 1;
   }
 }
 </style>

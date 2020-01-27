@@ -6,10 +6,24 @@
       >
         <requirement-item
           v-for="req in requirements"
-          v-bind:key="req.id"
+          :key="req.id"
           :requirement="req"
-        ></requirement-item>
+        />
       </v-flex>
+      <v-fab-transition>
+        <v-btn
+          :color="color"
+          fab
+          absolute
+          large
+          bottom
+          right
+          class="v-btn--example"
+          href="#/requirements/add"
+        >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </v-fab-transition>
     </v-container>
   </loading>
 </template>
@@ -30,6 +44,8 @@ class IndexPage extends Vue {
   requirements: Array<IRequirement> | [] = [];
 
   loading = false
+  color = ''
+  icon = ''
 
   mounted () {
     this.init()
@@ -39,12 +55,13 @@ class IndexPage extends Vue {
     this.loading = true
     await this.request()
     this.loading = false
+    this.color = 'red'
+    this.icon = 'mdi-plus'
   }
 
   async request () {
     try {
       const requirements = await getRequirements()
-      console.log(requirements)
       this.requirements = requirements
     } catch (error) {
       this.$errorHandler(this.$toast.bind(this), error)
