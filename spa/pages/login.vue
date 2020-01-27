@@ -7,10 +7,10 @@
         hide-slider
         background-color="transparent"
       >
-        <v-tab key="login">
+        <v-tab key="login" active-class="title">
           登录
         </v-tab>
-        <v-tab key="reg">
+        <v-tab key="reg" active-class="title">
           注册
         </v-tab>
       </v-tabs>

@@ -3,36 +3,71 @@
     <v-container>
       <v-form ref="form" v-model="valid" lazy-validation>
         <div class="information-content">
-          <v-text-field v-model="hosiptalData.hospitalName" :rules="rules.hospitalName" required label="医院名称"></v-text-field>
-          <v-text-field v-model="hosiptalData.hospitalAddress" :rules="rules.hospitalAddress" required label="医院地址"></v-text-field>
-          <v-text-field v-model="hosiptalData.hospitalCellphone" :rules="rules.hospitalCellphone" required label="联系方式"></v-text-field>
+          <v-text-field
+            v-model="hosiptalData.hospitalName"
+            required
+            label="医院名称"
+            :rules="rules.hospitalName"
+          />
+          <v-text-field
+            v-model="hosiptalData.hospitalAddress"
+            :rules="rules.hospitalAddress"
+            required
+            label="医院地址"
+          />
+          <v-text-field
+            v-model="hosiptalData.hospitalCellphone"
+            :rules="rules.hospitalCellphone"
+            required
+            label="联系方式"
+          />
         </div>
         <v-subheader>物资需求</v-subheader>
         <v-card
-          class="supplies"
-          outlined
           v-for="(item, i) in supplies"
           :key="i"
+          class="supplies"
+          outlined
         >
           <div class="supplies-content">
-            <v-text-field v-model="supplies[i].name" :rules="rules.productName" required label="产品名称" single-line></v-text-field>
-            <v-text-field v-model="supplies[i].model" single-line :rules="rules.productModel" required label="型号或者标准"></v-text-field>
-            <v-text-field v-model="supplies[i].amount" single-line :rules="rules.productAmount" required label="需求量"></v-text-field>
+            <v-text-field
+              v-model="supplies[i].name"
+              :rules="rules.productName"
+              required
+              label="产品名称"
+              single-line
+            />
+            <v-text-field
+              v-model="supplies[i].model"
+              single-line
+              :rules="rules.productModel"
+              required
+              label="型号或者标准"
+            />
+            <v-text-field
+              v-model="supplies[i].amount"
+              single-line
+              :rules="rules.productAmount"
+              required
+              label="需求量"
+            />
           </div>
           <v-card-actions>
-            <v-btn text @click="delectItem(i)">删除</v-btn>
+            <v-btn text @click="delectItem(i)">
+              删除
+            </v-btn>
           </v-card-actions>
         </v-card>
 
         <v-btn
           class="mr-4 add-button"
-          @click="addItem"
           outlined
           block
+          @click="addItem"
         >
           添加需求
         </v-btn>
-        <v-divider class="requirement-divider"></v-divider>
+        <v-divider class="requirement-divider" />
         <v-btn
           class="mr-4"
           color="success"
@@ -94,8 +129,7 @@ class AddRequirementPage extends Vue {
     if (this.supplies.length <= 1) {
       this.$toast({ message: '最少需要一个物资需求', color: 'error' })
     } else {
-      this.supplies = supplies.filter((e, i) => {
-        console.log(e)
+      this.supplies = supplies.filter((_, i) => {
         return i !== index
       })
     }
