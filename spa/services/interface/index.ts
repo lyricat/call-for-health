@@ -22,6 +22,17 @@ export interface IRequirement {
   updatedAt: string
 }
 
+export interface IAttachment {
+  id: number,
+  creatorId: number,
+  requirementId: number,
+  type: string,
+  data: string,
+  txId: string,
+  createdAt: string,
+  updatedAt: string
+}
+
 export interface IProduct {
   id: number,
   name: string,
