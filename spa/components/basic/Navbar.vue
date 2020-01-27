@@ -1,8 +1,8 @@
 <template>
   <v-app-bar app flat>
-    <v-toolbar-title class="headline text-uppercase" @click="toHome">
-      <span>Call for </span>
-      <span class="font-weight-bold">HEALTH</span>
+    <v-toolbar-title class="headline-2 text-uppercase" @click="toHome">
+      <span class="font-weight-bold">新冠</span>
+      <span>疫情物资互助</span>
     </v-toolbar-title>
     <v-spacer />
     <v-menu bottom left>
