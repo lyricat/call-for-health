@@ -14,7 +14,7 @@ function authRequired(ctx, next) {
 }
 
 function jwtAuthRequired(ctx, next) {
-  return passport.authenticate('jwt', {session: false})(ctx, next)
+  return passport.authenticate('jwt', {session: true})(ctx, next)
 }
 
 function kycRequired(ctx, next) {

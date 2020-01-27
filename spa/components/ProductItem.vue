@@ -3,7 +3,7 @@
     <div class="body-2">
       {{ product.name }}
     </div>
-    <div class="body-2 ml-2">
+    <div class="body-2 ml-2 model">
       {{ product.model }}
     </div>
     <div v-if="product.amount !== -1" class="body-2 grow text-right">

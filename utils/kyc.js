@@ -94,8 +94,8 @@ const encryptKycResult = function(info) {
 };
 
 const decryptKycResult = function(text) {
-    let privateKey = fs.readFileSync(conf.kyc_public_key_file, "utf8");
-    return cryptoUtils.decryptRsa(text, privateKey)
+  let privateKey = fs.readFileSync(conf.kyc_private_key_file, "utf8");
+  return cryptoUtils.decryptRsa(text, privateKey)
 };
 
 const maskRealName = function (name) {

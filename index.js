@@ -109,6 +109,32 @@ const serve = function() {
   }
 };
 
+const decryptKyc = async function (username) {
+  const model = require('./model')
+  const kycUtils = require('./utils/kyc')
+  const user = await model.User.findOne({
+    where: { username: username },
+    attributes: model.UserAttrs
+  });
+  if (user === null) {
+    console.log('no user')
+    return
+  }
+  console.log('user:', user.get({plain: true}))
+  const latestKycRecord = await model.Kyc.findOne({
+    where: { resultMessage: 'SUCCESS', userId: user.id },
+    attributes: ["resultCode", "resultMessage", "data", "errorMessage", "realName", "realId", "uniqueHash", "passedAt"],
+    order: [["createdAt", "DESC"]]
+  });
+  if (latestKycRecord === null) {
+    console.log('no kyc record')
+    return
+  }
+  console.log('kyc record:', latestKycRecord.get({plain: true}))
+  const result = kycUtils.decryptKycResult(latestKycRecord.data);
+  console.log('result:', result)
+}
+
 function main() {
   const args = process.argv.slice(2);
   if (args.length === 0) {
@@ -134,6 +160,10 @@ ${keys.public}
 Private Key:
 ${keys.private}
       `)
+    } else if (args[0] === 'decrypt-kyc') {
+      if (args[1]) {
+        decryptKyc(args[1])
+      }
     } else if (args[0] === 'serve') {
       serve();
     }
