@@ -63,6 +63,9 @@ class IndexPage extends Vue {
   loading = false
 
   get title () {
+    if (this.requirement && this.requirement.text) {
+      return this.requirement.text
+    }
     return '需求详情'
   }
 

@@ -22,11 +22,6 @@ import RequirementItem from '@/components/RequirementItem.vue'
 
 @Component({
   middleware: 'i18n',
-  head () {
-    return {
-      title: this.title
-    }
-  },
   components: {
     RequirementItem
   }
@@ -35,10 +30,6 @@ class IndexPage extends Vue {
   requirements: Array<IRequirement> | [] = [];
 
   loading = false
-
-  get title () {
-    return this.$t('hello')
-  }
 
   mounted () {
     this.init()
