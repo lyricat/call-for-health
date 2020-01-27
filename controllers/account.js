@@ -139,7 +139,7 @@ module.exports = {
 
   kycFaceIdCallback: async function (ctx) {
     console.log("kycFaceIdCallback:", ctx);
-    ctx.body = "实名认证已提交。请回到网站，查看认证状态。"
+    ctx.body = "请回到网站，查看认证状态。"
   },
 
   kycFaceIdNotifyCallback: async function (ctx) {
