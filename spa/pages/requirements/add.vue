@@ -145,7 +145,9 @@ class AddRequirementPage extends Vue {
     // console.log(submitData)
     // if (this.$refs.form.validate()) {
     try {
+      this.loading = true
       const resp = await add(submitData)
+      this.loading = false
       this.$router.replace('/requirements/' + resp.id)
     } catch (error) {
       this.$toast({ message: error.toString(), color: 'error' })
