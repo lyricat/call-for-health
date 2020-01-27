@@ -1,14 +1,22 @@
+
 <template>
   <loading :loading="loading" :fullscreen="false">
     <v-container>
-      <v-flex
-        text-left
-      >
+      <v-flex>
         <requirement-item
           :requirement="requirement"
           :full="true"
         ></requirement-item>
       </v-flex>
+      <v-card outlined>
+        <v-card-text class="d-flex flex-row">
+          <v-flex class="body-2">
+            请截图保存到相册。<br/>
+            扫码查看最新的需求情况。
+          </v-flex>
+          <qr-code :value="qrcodeUrl"/>
+        </v-card-text>
+      </v-card>
     </v-container>
   </loading>
 </template>
@@ -18,6 +26,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { getRequirement } from '@/services/api'
 import { IRequirement } from '@/services/interface'
 import RequirementItem from '@/components/RequirementItem.vue'
+import { WEB_HOST } from '@/constants'
 
 @Component({
   middleware: 'i18n',
@@ -32,11 +41,16 @@ import RequirementItem from '@/components/RequirementItem.vue'
 })
 class IndexPage extends Vue {
   requirement: IRequirement | {} = {};
+  requirementId: string = ''
 
   loading = false
 
   get title () {
     return '需求详情'
+  }
+
+  get qrcodeUrl () {
+    return `${WEB_HOST}/#/requirements/${this.requirementId}`
   }
 
   mounted () {
@@ -46,6 +60,7 @@ class IndexPage extends Vue {
   async init () {
     this.loading = true
     const id = this.$route.params.id
+    this.requirementId = id
     await this.request(id)
     this.loading = false
   }
@@ -53,7 +68,6 @@ class IndexPage extends Vue {
   async request (id) {
     try {
       const requirement = await getRequirement(id)
-      console.log(requirement)
       this.requirement = requirement
     } catch (error) {
       this.$errorHandler(this.$toast.bind(this), error)
@@ -63,4 +77,5 @@ class IndexPage extends Vue {
 export default IndexPage
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>

@@ -1,0 +1,60 @@
+<template>
+  <v-app-bar app flat>
+    <v-toolbar-title class="headline-2 text-uppercase" @click="toHome">
+      <span class="font-weight-bold">新冠</span>
+      <span>疫情物资互助</span>
+    </v-toolbar-title>
+    <v-spacer />
+    <v-menu bottom left>
+      <template v-slot:activator="{ on }">
+        <v-btn
+          icon
+          color="black"
+          v-on="on"
+        >
+          <v-icon>{{ $icons.mdiDotsVertical }}</v-icon>
+        </v-btn>
+      </template>
+
+      <v-list>
+        <login-require>
+          <template #action-me="{ on }">
+            <v-list-item v-on="on">
+              <v-list-item-title>我的主页</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="handleLogout">
+              <v-list-item-title>退出登录</v-list-item-title>
+            </v-list-item>
+          </template>
+          <template #action-login="{ on }">
+            <v-list-item v-on="on">
+              <v-list-item-title>
+                登录/注册
+              </v-list-item-title>
+            </v-list-item>
+          </template>
+        </login-require>
+      </v-list>
+    </v-menu>
+  </v-app-bar>
+</template>
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import { Action } from 'vuex-class'
+
+@Component
+class Navbar extends Vue {
+  @Action('user/logout') logout
+
+  handleLogout () {
+    this.logout()
+    this.toHome()
+  }
+
+  toHome () {
+    return this.$router.push(this.localePath({ name: 'index' }))
+  }
+}
+export default Navbar
+</script>

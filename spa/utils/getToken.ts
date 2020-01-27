@@ -1,4 +1,4 @@
-export default async () => {
+export default function () {
   try {
     const token = localStorage.getItem('token')
     return token

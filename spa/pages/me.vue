@@ -1,55 +1,55 @@
 <template>
   <loading :loading="loading" :fullscreen="false">
     <v-container v-if="me">
-      <v-flex class="mb-4">
-        <h4 class="mb-2 caption">个人信息</h4>
-        <p class="body-2">用户名：{{ me.name }}</p>
-      </v-flex>
-      <v-flex class="mb-4">
-        <h4 class="mb-2 caption">实名信息</h4>
-        <p class="body-2">实名状态：{{ me.kycState === 0 ? '还没有实名' : '已经实名' }}</p>
-        <template v-if="me.kycState === 1">
-          <p class="body-2">姓名：...</p>
-          <p class="body-2">身份证号：...</p>
-        </template>
-      </v-flex>
-      <v-flex>
-        <h4 class="mb-2 caption">我发布的需求</h4>
-        <requirement-item
-          v-for="req in requirements"
-          v-bind:key="req.id"
-          :requirement="req"
-        ></requirement-item>
-      </v-flex>
+      <h4 class="mb-2 caption text--secondary">
+        个人信息
+      </h4>
+      <p class="body-2">
+        用户名：{{ me.name }}
+      </p>
+
+      <kyc-status :me="me" />
+
+      <h4 class="mb-2 caption text--secondary">
+        我发布的需求
+      </h4>
+      <requirement-item
+        v-for="req in requirements"
+        :key="req.id"
+        :requirement="req"
+      />
     </v-container>
   </loading>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { getMe, getMyRequirements } from '@/services/api'
+import { State } from 'vuex-class'
+import { getMyRequirements } from '@/services/api'
 import { IUser, IRequirement } from '@/services/interface'
 import RequirementItem from '@/components/RequirementItem.vue'
+import KYCStatus from '@/components/partial/me/KYCStatus.vue'
 
 @Component({
-  middleware: 'i18n',
   head () {
     return {
       title: this.title
     }
   },
   components: {
-    RequirementItem
+    RequirementItem,
+    'kyc-status': KYCStatus
   }
 })
 class MePage extends Vue {
-  requirements: Array<IRequirement> | [] = [];
-  me: IUser = {};
+  @State(state => state.user.profile) me!: IUser | ''
+
+  requirements: Array<IRequirement> | [] = []
 
   loading = false
 
   get title () {
-    return '我'
+    return '我的信息'
   }
 
   mounted () {
@@ -58,15 +58,13 @@ class MePage extends Vue {
 
   async init () {
     this.loading = true
-    await this.requesUser()
+    await this.requestMyRequirements()
     this.loading = false
   }
 
-  async requesUser () {
+  async requestMyRequirements () {
     try {
-      const me = await getMe()
       const requirements = await getMyRequirements()
-      this.me = me
       this.requirements = requirements
     } catch (error) {
       this.$errorHandler(this.$toast.bind(this), error)

@@ -8,8 +8,7 @@ const config: Configuration = {
     mode: 'hash'
   },
   head: {
-    titleTemplate: '%s - ' + process.env.npm_package_name,
-    title: process.env.npm_package_name || '',
+    title: '新冠疫情物资互助',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no' },
@@ -77,7 +76,8 @@ const config: Configuration = {
   env: {
     TOKEN: process.env.TOKEN || '',
     APP_ENV: process.env.APP_ENV || '',
-    APP_API_HOST: process.env.APP_API_HOST || ''
+    APP_API_HOST: process.env.APP_API_HOST || '',
+    APP_WEB_HOST: process.env.APP_WEB_HOST || 'https://cfh.firesbox.com'
   }
 }
 

@@ -7,12 +7,12 @@ export const state = () => ({
 })
 
 export const mutations = {
-  toast(state, { message, color }) {
+  toast (state, { message, color }) {
     state.snackbar.show = true
     state.snackbar.message = message
     state.snackbar.color = color
   },
-  setSnackbar(state, val) {
+  setSnackbar (state, val) {
     state.snackbar.show = val
   }
 }

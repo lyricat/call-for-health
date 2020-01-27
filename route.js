@@ -60,6 +60,7 @@ module.exports = {
       .post("/kyc/faceid/start", jwtAuthRequired, ctrl.account.kycFaceIdStart)
       // - i do not use face id's callback actually, they are not stable.
       .post("/kyc/faceid/callback", ctrl.account.kycFaceIdCallback)
+      .get ("/kyc/faceid/callback", ctrl.account.kycFaceIdCallback)
       .post("/kyc/faceid/notify_callback", ctrl.account.kycFaceIdNotifyCallback)
 
       // requirements
@@ -68,7 +69,7 @@ module.exports = {
       .post("/requirements", jwtAuthRequired, kycRequired, ctrl.requirement.handleCreate)
       .put ("/requirements/:id/status", jwtAuthRequired, kycRequired, isVolunteer, ctrl.requirement.handleUpdateStatus)
       .post("/requirements/:id/attachments", jwtAuthRequired, kycRequired, ctrl.requirement.handleCreateAttachment)
-      .get ("/requirements/:id/attachments", jwtAuthRequired, ctrl.requirement.listAttachments)
+      .get ("/requirements/:id/attachments", ctrl.requirement.listAttachments)
 
       // products api
       // @TODO: create and update

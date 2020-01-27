@@ -1,14 +1,18 @@
 <template>
   <loading :loading="loading" :fullscreen="false">
     <v-container>
-      <v-flex
-        text-left
-      >
+      <v-flex class="caption">
+        <p>如果您是疫区医院的接口人，可实名注册后发布物资需求。我们的志愿者联系您后会将信息上线。
+          请务必确保信息真实有效，所有信息都会数据存证以便有关部门监督。</p>
+        <p>如果您可以进行物资供给，请务必联系对方，确保供给信息的正确，避免不必要的浪费。</p>
+        <p>添加需求功能预计 一月27日 下午完成</p>
+      </v-flex>
+      <v-flex>
         <requirement-item
           v-for="req in requirements"
-          v-bind:key="req.id"
+          :key="req.id"
           :requirement="req"
-        ></requirement-item>
+        />
       </v-flex>
       <v-fab-transition>
         <v-btn
@@ -36,11 +40,6 @@ import RequirementItem from '@/components/RequirementItem.vue'
 
 @Component({
   middleware: 'i18n',
-  head () {
-    return {
-      title: this.title
-    }
-  },
   components: {
     RequirementItem
   }
@@ -51,10 +50,6 @@ class IndexPage extends Vue {
   loading = false
   color = ''
   icon = ''
-
-  get title () {
-    return this.$t('hello')
-  }
 
   mounted () {
     this.init()
@@ -71,7 +66,6 @@ class IndexPage extends Vue {
   async request () {
     try {
       const requirements = await getRequirements()
-      console.log(requirements)
       this.requirements = requirements
     } catch (error) {
       this.$errorHandler(this.$toast.bind(this), error)

@@ -1,7 +1,7 @@
 <template>
   <v-form ref="form" v-model="valid" lazy-validation>
     <v-text-field v-model="formData.username" :rules="rules.uesername" label="用户名" required />
-    <v-text-field v-model="formData.password" :rules="rules.password" label="密码" required />
+    <v-text-field v-model="formData.password" :rules="rules.password" type="password" label="密码" required />
     <v-btn
       :loading="loading"
       :disabled="!valid"
