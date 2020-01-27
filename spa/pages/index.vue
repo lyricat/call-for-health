@@ -6,9 +6,9 @@
       >
         <requirement-item
           v-for="req in requirements"
-          v-bind:key="req.id"
+          :key="req.id"
           :requirement="req"
-        ></requirement-item>
+        />
       </v-flex>
       <v-fab-transition>
         <v-btn
@@ -35,7 +35,6 @@ import { IRequirement } from '@/services/interface'
 import RequirementItem from '@/components/RequirementItem.vue'
 
 @Component({
-  middleware: 'i18n',
   head () {
     return {
       title: this.title
@@ -53,7 +52,7 @@ class IndexPage extends Vue {
   icon = ''
 
   get title () {
-    return this.$t('hello')
+    return 'Call For Health'
   }
 
   mounted () {
@@ -71,7 +70,6 @@ class IndexPage extends Vue {
   async request () {
     try {
       const requirements = await getRequirements()
-      console.log(requirements)
       this.requirements = requirements
     } catch (error) {
       this.$errorHandler(this.$toast.bind(this), error)

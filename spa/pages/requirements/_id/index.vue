@@ -5,7 +5,7 @@
         <requirement-item
           :requirement="requirement"
           :full="true"
-        ></requirement-item>
+        />
       </v-flex>
       <v-card outlined v-if="attachments.length !== 0">
         <v-card-text>
@@ -45,7 +45,6 @@ import { IRequirement, IAttachment } from '@/services/interface'
 import RequirementItem from '@/components/RequirementItem.vue'
 
 @Component({
-  middleware: 'i18n',
   head () {
     return {
       title: this.title

@@ -1,8 +1,14 @@
 <template>
   <div class="product-item d-flex" outlined @click.stop>
-    <div class="body-2">{{ product.name }}</div>
-    <div class="model body-2 ml-2">{{ product.model }}</div>
-    <div class="body-2 grow text-right" v-if="product.amount !== -1">x{{ product.amount }}</div>
+    <div class="body-2">
+      {{ product.name }}
+    </div>
+    <div class="body-2 ml-2">
+      {{ product.model }}
+    </div>
+    <div v-if="product.amount !== -1" class="body-2 grow text-right">
+      x{{ product.amount }}
+    </div>
   </div>
 </template>
 
