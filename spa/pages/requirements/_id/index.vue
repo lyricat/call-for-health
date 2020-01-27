@@ -31,6 +31,9 @@
         </v-card-text>
       </v-card>
       <v-flex v-if="confirmed" class="mt-2">
+        <v-btn block color="error" depressed class="mb-2" @click="gotoEditReuirement">
+          修改
+        </v-btn>
         <v-btn block color="primary" depressed class="mb-2" @click="showShare = true">
           分享
         </v-btn>
@@ -72,6 +75,7 @@ class IndexPage extends Vue {
   requirement: IRequirement | any = {};
   attachments: Array<IAttachment> | [] = [];
   showShare: boolean = false;
+  id: any = 0;
 
   loading = false
 
@@ -90,6 +94,10 @@ class IndexPage extends Vue {
     return this.requirement && this.requirement.status === 'CONFIRMED'
   }
 
+  gotoEditReuirement () {
+    this.$router.push('/requirements/edit/' + this.id)
+  }
+
   mounted () {
     this.init()
   }
@@ -97,6 +105,7 @@ class IndexPage extends Vue {
   async init () {
     this.loading = true
     const id = this.$route.params.id
+    this.id = id
     await this.request(id)
     this.loading = false
   }
