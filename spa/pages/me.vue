@@ -28,7 +28,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { getMe, getMyRequirements } from '@/services/api'
-import { IUser, IRequirement } from '@/services/interface'
+import { IRequirement } from '@/services/interface'
 import RequirementItem from '@/components/RequirementItem.vue'
 
 @Component({
@@ -44,7 +44,7 @@ import RequirementItem from '@/components/RequirementItem.vue'
 })
 class MePage extends Vue {
   requirements: Array<IRequirement> | [] = [];
-  me: IUser = {};
+  me: any = {};
 
   loading = false
 
