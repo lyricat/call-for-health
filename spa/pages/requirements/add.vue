@@ -63,10 +63,10 @@ class AddRequirementPage extends Vue {
   loading = false
   valid = true
 
-  hosiptalData:IRequirement = {
+  hosiptalData:IRequirement | any = {
     hospitalName: '',
     hospitalAddress: '',
-    hospitalCellphone: null,
+    hospitalCellphone: '',
     products: []
   }
 
@@ -102,21 +102,21 @@ class AddRequirementPage extends Vue {
   }
 
   async submit () {
-    const submitData:IRequirement = {
+    const submitData:any = {
       text: this.hosiptalData.hospitalName,
       location: this.hosiptalData.hospitalAddress,
       contacts: this.hosiptalData.hospitalCellphone,
       products: this.supplies
     }
-    console.log(submitData)
-    if (this.$refs.form.validate()) {
-      try {
-        const resp = await add(submitData)
-        this.$router.replace('/requirements/' + resp.id)
-      } catch (error) {
-        this.$toast({ message: error.toString(), color: 'error' })
-      }
+    // console.log(submitData)
+    // if (this.$refs.form.validate()) {
+    try {
+      const resp = await add(submitData)
+      this.$router.replace('/requirements/' + resp.id)
+    } catch (error) {
+      this.$toast({ message: error.toString(), color: 'error' })
     }
+    // }
   }
 
   supplies = [{
