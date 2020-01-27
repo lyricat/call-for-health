@@ -53,7 +53,7 @@
             />
           </div>
           <v-card-actions>
-            <v-btn text @click="delectItem(i)">
+            <v-btn text color="primary" @click="delectItem(i)">
               删除
             </v-btn>
           </v-card-actions>
@@ -63,6 +63,7 @@
           class="mr-4 add-button"
           outlined
           block
+          color="primary"
           @click="addItem"
         >
           添加需求
@@ -70,7 +71,7 @@
         <v-divider class="requirement-divider" />
         <v-btn
           class="mr-4"
-          color="success"
+          color="primary"
           block
           @click="submit"
         >
