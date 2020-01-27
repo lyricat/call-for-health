@@ -60,6 +60,7 @@ module.exports = {
       .post("/kyc/faceid/start", jwtAuthRequired, ctrl.account.kycFaceIdStart)
       // - i do not use face id's callback actually, they are not stable.
       .post("/kyc/faceid/callback", ctrl.account.kycFaceIdCallback)
+      .get ("/kyc/faceid/callback", ctrl.account.kycFaceIdCallback)
       .post("/kyc/faceid/notify_callback", ctrl.account.kycFaceIdNotifyCallback)
 
       // requirements
