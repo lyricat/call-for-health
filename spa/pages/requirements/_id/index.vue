@@ -55,7 +55,7 @@ import RequirementItem from '@/components/RequirementItem.vue'
   }
 })
 class IndexPage extends Vue {
-  requirement: IRequirement | {} = {};
+  requirement: IRequirement | any = {};
   attachments: Array<IAttachment> | [] = [];
   showShare: boolean = false;
 
