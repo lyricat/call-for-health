@@ -14,6 +14,7 @@ import Navbar from '@/components/basic/Navbar.vue'
 import AccountUtil from '@/utils/account'
 
 @Component({
+  middleware: 'i18n',
   components: {
     Navbar
   }

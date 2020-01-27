@@ -1,7 +1,12 @@
 <template>
   <v-container fluid class="page-login" pa-4>
     <v-col cols="12">
-      <v-tabs v-model="tab" background-color="transparent" grow>
+      <v-tabs
+        v-model="tab"
+        centered
+        hide-slider
+        background-color="transparent"
+      >
         <v-tab key="login">
           登录
         </v-tab>
@@ -17,7 +22,7 @@
             ref="loginForm"
             :form-data.sync="formData"
             :loading="loading"
-            @handleSubmit="login"
+            @handleSubmit="handleLogin"
           />
         </v-tab-item>
         <v-tab-item key="reg">
@@ -25,7 +30,7 @@
             ref="regForm"
             :form-data.sync="formData"
             :loading="loading"
-            @handleSubmit="reg"
+            @handleSubmit="handleRegister"
           />
         </v-tab-item>
       </v-tabs-items>
@@ -35,11 +40,10 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import { login, reg } from '@/services/api/login'
+import { Action } from 'vuex-class'
 import { ILogin } from '@/services/interface/login'
 import LoginForm from '@/components/partial/login/LoginForm.vue'
 import RegForm from '@/components/partial/login/RegForm.vue'
-import setToken from '@/utils/setToken'
 
 @Component({
   head () {
@@ -53,7 +57,9 @@ import setToken from '@/utils/setToken'
   }
 })
 class LoginPage extends Vue {
-  lock: boolean = false
+  @Action('user/login') login
+
+  @Action('user/register') register
 
   loading: boolean = false
 
@@ -73,12 +79,12 @@ class LoginPage extends Vue {
     this.reset()
   }
 
-  login () {
-    this.submit('login')
+  handleLogin () {
+    this.submit('LOGIN')
   }
 
-  reg () {
-    this.submit('reg')
+  handleRegister () {
+    this.submit('REGISTER')
   }
 
   reset () {
@@ -89,28 +95,28 @@ class LoginPage extends Vue {
   }
 
   async submit (type: string) {
-    if (this.lock) { return }
+    if (this.loading) { return }
     this.loading = true
-    this.lock = true
-    const submitData: ILogin = {
+    const data: ILogin = {
       username: this.formData.username,
       password: this.formData.password
     }
     try {
-      let res: any
-      if (type === 'login') {
-        res = await login(submitData)
-      } else {
-        res = await reg(submitData)
+      switch (type) {
+        case 'LOGIN':
+          await this.login(data)
+          this.$toast({ message: '登录成功', color: 'success' })
+          break
+        case 'REGISTER':
+          await this.register(data)
+          this.$toast({ message: '注册成功', color: 'success' })
+          break
       }
-      // TODO: backend should attach token in register response.
-      setToken(res.access_token)
       this.$router.push('/me')
     } catch (error) {
       this.$errorHandler(this.$toast.bind(this), error)
     } finally {
       this.loading = false
-      this.lock = false
     }
   }
 }
