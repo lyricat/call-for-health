@@ -15,6 +15,9 @@ export interface IRequirement {
   txId: string,
   latestTxId: string,
   text: string,
+  hospitalName: string,
+  hospitalAddress: string,
+  hospitalCellphone: number,
   products: Array<number>,
   productsAmount: Array<number>,
   status: string,
@@ -26,6 +29,7 @@ export interface IProduct {
   id: number,
   name: string,
   model: string,
+  amount: number,
   description: string,
   createdAt: string,
   updatedAt: string
