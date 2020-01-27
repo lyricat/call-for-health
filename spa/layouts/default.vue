@@ -4,7 +4,7 @@
       app
       :flat="true"
     >
-      <v-toolbar-title class="headline text-uppercase">
+      <v-toolbar-title class="headline-2 text-uppercase" @click="goHome">
         <span>Call for </span>
         <span class="font-weight-bold">HEALTH</span>
       </v-toolbar-title>
@@ -69,6 +69,10 @@ class DefaultLayout extends Vue {
 
   gotoMe () {
     this.$router.push('/me')
+  }
+
+  goHome () {
+    this.$router.replace('/')
   }
 }
 export default DefaultLayout
