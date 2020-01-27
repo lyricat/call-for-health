@@ -29,6 +29,7 @@
     "moment": "^2.24.0",
     "nuxt": "^2.0.0",
     "nuxt-i18n": "^6.4.1",
+    "qrcode": "^1.4.4",
     "vue-class-component": "^7.1.0",
     "vue-clipboard2": "^0.3.1",
     "vue-property-decorator": "^8.2.2",
