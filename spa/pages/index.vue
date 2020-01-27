@@ -14,11 +14,11 @@
         <v-btn
           :color="color"
           fab
-          absolute
+          fixed
           large
           bottom
           right
-          class="v-btn--example"
+          class="v-btn--add-requirement"
           href="#/requirements/add"
         >
           <v-icon>mdi-plus</v-icon>
@@ -79,4 +79,9 @@ class IndexPage extends Vue {
 export default IndexPage
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+  .v-btn--add-requirement{
+    bottom: 0;
+    margin: 0 0 16px 16px;
+  }
+</style>
