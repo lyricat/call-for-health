@@ -3,8 +3,8 @@
     <v-card
       v-for="(item, i) in supplies"
       :key="i"
-      class="pa-3"
       outlined
+      class="pa-3 mb-2"
     >
       <div class="supplies-content">
         <v-text-field
