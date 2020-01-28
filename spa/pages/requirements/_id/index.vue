@@ -2,7 +2,7 @@
   <loading :loading="loading" :fullscreen="false">
     <v-container>
       <v-flex v-if="notConfirmed" class="hint hint-warning caption">
-        <p>本需求尚未得到确认，请等待志愿者确认本需求。</p>
+        <p>本需求尚未得到确认</p>
       </v-flex>
       <v-flex>
         <requirement-item
@@ -30,11 +30,23 @@
           </v-flex>
         </v-card-text>
       </v-card>
+      <pass-action :id="id" :show="showReview" @done="handleRefresh" />
       <v-flex v-if="confirmed" class="mt-2">
-        <v-btn block color="primary" depressed class="mb-2" @click="showShare = true">
+        <v-btn
+          block
+          color="primary"
+          depressed
+          class="mb-2"
+          @click="showShare = true"
+        >
           分享
         </v-btn>
-        <v-btn block color="primary" outlined @click="gotoScreenshot">
+        <v-btn
+          block
+          color="primary"
+          outlined
+          @click="gotoScreenshot"
+        >
           保存图片
         </v-btn>
       </v-flex>
@@ -100,7 +112,8 @@ import { Component, Vue } from 'vue-property-decorator'
 import { Getter } from 'vuex-class'
 import { getRequirement, getAttachments, updateRequirementStatus } from '@/services/api'
 import { IRequirement, IAttachment } from '@/services/interface'
-import RequirementItem from '@/components/RequirementItem.vue'
+import RequirementItem from '@/components/partial/requirements/RequirementItem.vue'
+import PassAction from '@/components/partial/requirements/PassAction.vue'
 
 @Component({
   head () {
@@ -109,18 +122,22 @@ import RequirementItem from '@/components/RequirementItem.vue'
     }
   },
   components: {
-    RequirementItem
+    RequirementItem,
+    PassAction
   }
 })
 class IndexPage extends Vue {
   @Getter('user/logged') logged
+
   @Getter('user/isVoluneer') isVoluneer
 
   requirement: IRequirement | any = {};
+
   attachments: Array<IAttachment> | [] = [];
+
   showShare: boolean = false;
+  
   showStatusDialog: boolean = false;
-  id: any = 0;
 
   loading = false
 
@@ -129,6 +146,10 @@ class IndexPage extends Vue {
       return this.requirement.text
     }
     return '需求详情'
+  }
+
+  get id () {
+    return this.$route.params.id
   }
 
   get notConfirmed () {
@@ -155,11 +176,13 @@ class IndexPage extends Vue {
     this.init()
   }
 
+  handleRefresh () {
+    this.init()
+  }
+
   async init () {
     this.loading = true
-    const id = this.$route.params.id
-    this.id = id
-    await this.request(id)
+    await this.request(this.id)
     this.loading = false
   }
 

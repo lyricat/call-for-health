@@ -1,12 +1,12 @@
 <template>
   <loading :loading="loading" :fullscreen="false">
-    <v-container>
+    <v-container class="mb-5">
       <v-form ref="form" v-model="valid" lazy-validation>
         <hosiptal :hosiptal-data.sync="hosiptalData" />
         <v-subheader>物资需求</v-subheader>
         <product :supplies.sync="supplies" @deleteProductItem="deleteItem" />
         <v-btn
-          class="mr-4 add-button"
+          class="mt-4 add-button"
           outlined
           block
           color="primary"
@@ -16,9 +16,10 @@
         </v-btn>
         <v-divider class="requirement-divider" />
         <v-btn
-          class="mr-4"
+          class="mt-5"
           color="primary"
           block
+          depressed
           @click="submit"
         >
           保存
@@ -30,7 +31,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { add } from '@/services/api/requirement'
+import { addRequirements } from '@/services/api'
 import { IRequirement } from '@/services/interface'
 import Hosiptal from '@/components/partial/requirement/hosiptal.vue'
 import Product from '@/components/partial/requirement/product.vue'
@@ -49,6 +50,7 @@ import Product from '@/components/partial/requirement/product.vue'
 })
 class AddRequirementPage extends Vue {
   loading = false
+
   valid = true
 
   hosiptalData:IRequirement | any = {
@@ -69,11 +71,28 @@ class AddRequirementPage extends Vue {
     return '新增需求'
   }
 
-  mounted () {
-    this.init()
-  }
-
-  async init () {
+  rules = {
+    hospitalName: [
+      v => !!v || '请输入医院或者医疗机构名称',
+      v => (v && v.length >= 3) || '不能少于三个字'
+    ],
+    hospitalAddress: [
+      v => !!v || '请输入地址，用来接收物资',
+      v => (v && v.length >= 3) || '不能少于三个字'
+    ],
+    hospitalCellphone: [
+      v => !!v || '请输入联系方式，比如“李萍 18812345678”'
+    ],
+    productName: [
+      v => !!v || '请输入产品名称'
+    ],
+    productModel: [
+      v => !!v || '请输入型号或者标准'
+    ],
+    productAmount: [
+      v => !!v || '请输入需求数量',
+      v => /^\d*$/.test(v) || '请输入正确的数字'
+    ]
   }
 
   addItem () {
@@ -103,15 +122,15 @@ class AddRequirementPage extends Vue {
       sourceUrl: this.hosiptalData.sourceUrl,
       products: this.supplies
     }
-    if ((this.$refs.form as any).validate()) {
-      try {
-        this.loading = true
-        const resp = await add(submitData)
-        this.loading = false
-        this.$router.replace('/requirements/' + resp.id)
-      } catch (error) {
-        this.$toast({ message: error.toString(), color: 'error' })
-      }
+    const valid = (this.$refs.form as any).validate()
+    if (!valid) { return }
+    try {
+      this.loading = true
+      const resp = await addRequirements(submitData)
+      this.loading = false
+      this.$router.replace('/requirements/' + resp.id)
+    } catch (error) {
+      this.$toast({ message: error.toString(), color: 'error' })
     }
   }
 }

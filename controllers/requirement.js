@@ -5,14 +5,19 @@ const { buildOnChainRecord } = require('../utils/view')
 
 module.exports = {
   list: async function(ctx) {
+    const { status, limit = 10, offset = 0 } = ctx.query
+    const filters = {}
+    status && (filters.status = status)
     let records = await model.Requirement.findAll({
-      where: { status: model.RequirementStatus.CONFIRMED },
+      where: filters,
       include: [{
         model: model.User,
         attributes: model.UserAttrs,
         as: 'creator'
       }],
-      order: [["createdAt", "DESC"]]
+      order: [["createdAt", "DESC"]],
+      limit: Number(limit),
+      offset: Number(offset)
     })
     ctx.body = { status: 'success', data: records };
   },

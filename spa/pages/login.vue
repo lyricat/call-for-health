@@ -41,7 +41,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { Action } from 'vuex-class'
-import { ILogin } from '@/services/interface/login'
+import { ILogin } from '@/services/interface'
 import LoginForm from '@/components/partial/login/LoginForm.vue'
 import RegForm from '@/components/partial/login/RegForm.vue'
 

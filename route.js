@@ -71,7 +71,7 @@ module.exports = {
       .put ("/requirements/:id/status", jwtAuthRequired, kycRequired, isVolunteer, ctrl.requirement.handleUpdateStatus)
       .post("/requirements/:id/attachments", jwtAuthRequired, kycRequired, ctrl.requirement.handleCreateAttachment)
       .get ("/requirements/:id/attachments", ctrl.requirement.listAttachments)
-
+      
       // products api
       // @TODO: create and update
       // .get ("/products", ctrl.products.list)

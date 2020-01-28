@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-row align-center">
-    <div class="d-flex align-center">
+    <div class="d-flex align-center" style="height: 28px;">
       <slot />
     </div>
     <v-btn

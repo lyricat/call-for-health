@@ -20,6 +20,7 @@ export interface IKYC {
   passedAt: string
 }
 
+export type RequirementStatus = 'PENDING' | 'CONFIRMED' | 'HIDDEN'
 
 export interface IRequirement {
   id: number,
@@ -31,7 +32,7 @@ export interface IRequirement {
   contacts: string,
   sourceUrl: string,
   products: Array<any>,
-  status: string,
+  status: RequirementStatus,
   createdAt: string,
   updatedAt: string
 }
