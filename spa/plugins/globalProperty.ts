@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { mdiArrowLeft, mdiDotsVertical, mdiPlus } from '@mdi/js'
-import * as moment from 'moment'
+import moment from 'moment'
 import errorHandler from '@/utils/errorHandler'
 import copyUtil from '@/utils/copyUtil'
 import autolink from '@/utils/autolink'
@@ -20,7 +20,9 @@ export default () => {
 
   Vue.prototype.$copyUtil = copyUtil
 
-  Vue.prototype.$moment = moment
+  Vue.prototype.$moment = (x) => {
+    return moment(x).utcOffset(-8)
+  }
 
   Vue.prototype.$autolink = autolink
 }

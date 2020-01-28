@@ -77,7 +77,8 @@ const config: Configuration = {
     TOKEN: process.env.TOKEN || '',
     APP_ENV: process.env.APP_ENV || '',
     APP_API_HOST: process.env.APP_API_HOST || '',
-    APP_WEB_HOST: process.env.APP_WEB_HOST || 'https://cfh.firesbox.com'
+    APP_WEB_HOST: process.env.APP_WEB_HOST || 'https://cfh.firesbox.com',
+    APP_UTC_OFFSET: process.env.APP_UTC_OFFSET || -8
   }
 }
 
