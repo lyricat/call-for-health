@@ -81,7 +81,7 @@
             {{ requirement.text }}
           </div>
           <div class="requirement-section-body body-2 my-2">
-            {{ `急需${requirement.products.length}种物资，约${productSum}件`}}
+            {{ `急需${requirement.products.length}种物资，约${productSum}件` }}
           </div>
         </v-card-text>
         <v-card-actions class="meta">
@@ -106,11 +106,10 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import ProductItem from './ProductItem.vue'
 import { IRequirement } from '@/services/interface'
-import CopyableItem from '@/components/CopyableItem.vue'
 
 @Component({
   components: {
-    ProductItem, CopyableItem
+    ProductItem
   }
 })
 export default class RequirementItem extends Vue {

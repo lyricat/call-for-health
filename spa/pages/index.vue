@@ -20,7 +20,6 @@
             color="primary"
             fab
             fixed
-            large
             bottom
             right
             class="v-btn--add-requirement"

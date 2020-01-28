@@ -1,31 +1,39 @@
 <template>
   <loading :loading="loading" :fullscreen="false">
-    <v-container class="py-5">
+    <v-container class="py-5 wrapper">
       <v-form ref="form" v-model="valid" lazy-validation>
         <hosiptal-form :hosiptal-data.sync="hosiptalData" />
         <v-subheader class="pa-0">
           物资需求
         </v-subheader>
         <product-form :supplies.sync="supplies" @deleteProductItem="deleteItem" />
-        <v-btn
-          class="mt-4 add-button"
-          outlined
-          block
-          color="primary"
-          @click="addItem"
-        >
-          添加需求
-        </v-btn>
-        <v-divider class="requirement-divider" />
-        <v-btn
-          class="mt-5"
-          color="primary"
-          block
-          depressed
-          @click="submit"
-        >
-          保存
-        </v-btn>
+        <div id="createBottom" />
+        <actions-sheet>
+          <v-card>
+            <v-card-text>
+              <v-subheader>
+                操作
+              </v-subheader>
+              <v-btn
+                outlined
+                block
+                color="primary"
+                @click="addItem"
+              >
+                添加物资需求
+              </v-btn>
+              <v-btn
+                class="mt-5"
+                color="primary"
+                block
+                depressed
+                @click="submit"
+              >
+                保存
+              </v-btn>
+            </v-card-text>
+          </v-card>
+        </actions-sheet>
       </v-form>
     </v-container>
   </loading>
@@ -79,6 +87,7 @@ class AddRequirementPage extends Vue {
       model: '',
       amount: null
     })
+    this.$vuetify.goTo('#createBottom')
   }
 
   deleteItem (index) {
@@ -114,3 +123,9 @@ class AddRequirementPage extends Vue {
 }
 export default AddRequirementPage
 </script>
+
+<style lang="scss" scoped>
+.wrapper {
+  margin-bottom: 40px;
+}
+</style>

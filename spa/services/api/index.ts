@@ -21,6 +21,8 @@ export const getMyRequirements = (): Promise<IRequirement[]> => http.get('/accou
 
 export const getAttachments = (id:number): Promise<IAttachment[]> => http.get(`/requirements/${id}/attachments`)
 
+export const addAttachments = (id, data) => http.post(`/requirements/${id}/attachments`, { data })
+
 export const getKYCLink = () => http.post('/kyc/faceid/start')
 
 export const login = (data: ILogin) => http.post('/auth/login', { data })
