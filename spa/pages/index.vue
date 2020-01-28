@@ -6,10 +6,13 @@
           如果您是疫区医院的接口人，可实名注册后发布物资需求。我们的志愿者联系您后会将信息上线。
           请务必确保信息真实有效，所有信息都会数据存证以便有关部门监督。
         </p>
-        <p>如果您可以进行物资供给，请务必联系对方，确保供给信息的正确，避免不必要的浪费。</p>
+        <p class="mb-0">如果您可以进行物资供给，请务必联系对方，确保供给信息的正确，避免不必要的浪费。</p>
       </v-flex>
       <v-flex>
-        <requirement-list status="CONFIRMED" />
+        <v-flex class="mb-4">
+          <v-text-field v-model="keywords" placeholder="搜索关键字" hide-details single-line></v-text-field>
+        </v-flex>
+        <requirement-list status="CONFIRMED" :keywords="keywords"/>
       </v-flex>
       <template v-if="passedKyc">
         <v-fab-transition>
@@ -44,6 +47,8 @@ import RequirementList from '@/components/partial/requirements/RequirementList.v
 })
 class IndexPage extends Vue {
   requirements: Array<IRequirement> | [] = [];
+
+  keywords = ''
 
   loading = false
 

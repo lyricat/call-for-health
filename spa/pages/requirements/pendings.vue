@@ -1,7 +1,10 @@
 <template>
   <v-container>
     <p>待审核列表</p>
-    <requirement-list status="PENDING" show-status />
+    <v-flex class="mb-4">
+      <v-text-field v-model="keywords" placeholder="搜索关键字" hide-details single-line></v-text-field>
+    </v-flex>
+    <requirement-list status="PENDING" :keywords="keywords" show-status />
   </v-container>
 </template>
 
@@ -19,6 +22,8 @@ import { IRequirement } from '@/services/interface'
 })
 class PendingRequirements extends Vue {
   checkingItem: IRequirement | null = null
+
+  keywords = ''
 
   dialog = false
 }

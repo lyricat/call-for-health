@@ -24,10 +24,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import _ from 'lodash'
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import Requirements from './RequirementItem.vue'
 import { RequirementStatus, IRequirement } from '@/services/interface'
-import { getRequirements } from '@/services/api'
+import { getRequirements, queryRequirements } from '@/services/api'
 
 @Component({
   components: {
@@ -36,12 +37,25 @@ import { getRequirements } from '@/services/api'
 })
 class RequirementList extends Vue {
   @Prop() status!: RequirementStatus
+  @Prop() keywords!: string
+
+  @Watch('keywords')
+  watchKeywords (newVal) {
+    if (newVal.trim().length === 0 || newVal.trim().length > 1) {
+      this.triggerRequest()
+    }
+  }
 
   requirements: IRequirement[] = []
 
   loading = false
 
   hasNext = true
+
+  triggerRequest = _.debounce(() => {
+    this.requestRequirements(true)
+    console.log('request')
+  }, 500)
 
   get loadMoreDisabled () {
     return this.loading || !this.hasNext
@@ -51,8 +65,14 @@ class RequirementList extends Vue {
     try {
       this.loading = true
       const offset = reload ? 0 : this.requirements.length
-      const query = { status: this.status, offset }
-      const requirements = await getRequirements(query)
+      let requirements
+      if (this.keywords.length) {
+        const query = { status: this.status, keywords: this.keywords, offset }
+        requirements = await queryRequirements(query)
+      } else {
+        const query = { status: this.status, offset }
+        requirements = await getRequirements(query)
+      }
       this.requirements = reload ? requirements : this.requirements.concat(requirements)
       this.hasNext = requirements.length > 0
     } catch (error) {
