@@ -25,7 +25,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { getRequirement } from '@/services/api'
 import { IRequirement } from '@/services/interface'
-import RequirementItem from '@/components/RequirementItem.vue'
+import RequirementItem from '@/components/partial/requirements/RequirementItem.vue'
 import { WEB_HOST } from '@/constants'
 
 @Component({

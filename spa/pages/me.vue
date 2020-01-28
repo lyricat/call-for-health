@@ -13,11 +13,7 @@
       <h4 class="mb-2 caption text--secondary">
         我发布的需求
       </h4>
-      <requirement-item
-        v-for="req in requirements"
-        :key="req.id"
-        :requirement="req"
-      />
+      <requirement-list :show-status="true" />
     </v-container>
   </loading>
 </template>
@@ -25,9 +21,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { State } from 'vuex-class'
-import { getMyRequirements } from '@/services/api'
-import { IUser, IRequirement } from '@/services/interface'
-import RequirementItem from '@/components/RequirementItem.vue'
+import { IUser } from '@/services/interface'
+import RequirementList from '@/components/partial/requirements/RequirementList.vue'
 import KYCStatus from '@/components/partial/me/KYCStatus.vue'
 
 @Component({
@@ -37,38 +32,17 @@ import KYCStatus from '@/components/partial/me/KYCStatus.vue'
     }
   },
   components: {
-    RequirementItem,
+    RequirementList,
     'kyc-status': KYCStatus
   }
 })
 class MePage extends Vue {
   @State(state => state.user.profile) me!: IUser | ''
 
-  requirements: Array<IRequirement> | [] = []
-
   loading = false
 
   get title () {
     return '我的信息'
-  }
-
-  mounted () {
-    this.init()
-  }
-
-  async init () {
-    this.loading = true
-    await this.requestMyRequirements()
-    this.loading = false
-  }
-
-  async requestMyRequirements () {
-    try {
-      const requirements = await getMyRequirements()
-      this.requirements = requirements
-    } catch (error) {
-      this.$errorHandler(this.$toast.bind(this), error)
-    }
   }
 }
 export default MePage

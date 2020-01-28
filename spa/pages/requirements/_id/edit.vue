@@ -1,12 +1,14 @@
 <template>
   <loading :loading="loading" :fullscreen="false">
-    <v-container>
+    <v-container class="py-5">
       <v-form ref="form" v-model="valid" lazy-validation>
-        <hosiptal :hosiptal-data.sync="hosiptalData" />
-        <v-subheader>物资需求</v-subheader>
-        <product :supplies.sync="supplies" @deleteProductItem="deleteItem" />
+        <hosiptal-form :hosiptal-data.sync="hosiptalData" />
+        <v-subheader class="pa-0">
+          物资需求
+        </v-subheader>
+        <product-form :supplies.sync="supplies" @deleteProductItem="deleteItem" />
         <v-btn
-          class="mr-4 add-button"
+          class="mt-4 add-button"
           outlined
           block
           color="primary"
@@ -16,9 +18,10 @@
         </v-btn>
         <v-divider class="requirement-divider" />
         <v-btn
-          class="mr-4"
+          class="mt-5"
           color="primary"
           block
+          depressed
           @click="submit"
         >
           修改
@@ -30,11 +33,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { edit } from '@/services/api/requirement'
-import { getRequirement } from '@/services/api'
+import { editRequirements, getRequirement } from '@/services/api'
 import { IRequirement, IAttachment } from '@/services/interface'
-import Hosiptal from '@/components/partial/requirement/hosiptal.vue'
-import Product from '@/components/partial/requirement/product.vue'
+import HosiptalForm from '@/components/partial/requirements/HosiptalForm.vue'
+import ProductForm from '@/components/partial/requirements/ProductForm.vue'
 
 @Component({
   middleware: 'i18n',
@@ -44,8 +46,8 @@ import Product from '@/components/partial/requirement/product.vue'
     }
   },
   components: {
-    Hosiptal,
-    Product
+    HosiptalForm,
+    ProductForm
   }
 })
 class EditRequirementPage extends Vue {
@@ -132,7 +134,7 @@ class EditRequirementPage extends Vue {
     if ((this.$refs.form as any).validate()) {
       try {
         this.loading = true
-        const resp = await edit(this.requirement.id, submitData)
+        const resp = await editRequirements(this.requirement.id, submitData)
         this.loading = false
         this.$router.replace('/requirements/' + resp.id)
       } catch (error) {
@@ -143,17 +145,3 @@ class EditRequirementPage extends Vue {
 }
 export default EditRequirementPage
 </script>
-
-<style lang="scss" scoped>
-.information-content{
-  padding: 0 16px 0 16px;
-  margin: 0 auto;
-  box-sizing: border-box;
-}
-.add-button{
-  margin-top: 20px;
-}
-.requirement-divider{
-  margin: 20px auto 20px;
-}
-</style>

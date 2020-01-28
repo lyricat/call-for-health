@@ -9,11 +9,7 @@
         <p>如果您可以进行物资供给，请务必联系对方，确保供给信息的正确，避免不必要的浪费。</p>
       </v-flex>
       <v-flex>
-        <requirement-item
-          v-for="req in requirements"
-          :key="req.id"
-          :requirement="req"
-        />
+        <requirement-list status="CONFIRMED" />
       </v-flex>
       <template v-if="passedKyc">
         <v-fab-transition>
@@ -38,45 +34,22 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { Getter } from 'vuex-class'
-import { getRequirements } from '@/services/api'
 import { IRequirement } from '@/services/interface'
-import RequirementItem from '@/components/RequirementItem.vue'
+import RequirementList from '@/components/partial/requirements/RequirementList.vue'
 
 @Component({
-  middleware: 'i18n',
   components: {
-    RequirementItem
+    RequirementList
   }
 })
 class IndexPage extends Vue {
   requirements: Array<IRequirement> | [] = [];
+
   loading = false
+
   color = ''
 
   @Getter('user/passedKyc') passedKyc
-
-  mounted () {
-    this.init()
-  }
-
-  get kycPassed () {
-    return false
-  }
-
-  async init () {
-    this.loading = true
-    await this.request()
-    this.loading = false
-  }
-
-  async request () {
-    try {
-      const requirements = await getRequirements()
-      this.requirements = requirements
-    } catch (error) {
-      this.$errorHandler(this.$toast.bind(this), error)
-    }
-  }
 }
 export default IndexPage
 </script>
