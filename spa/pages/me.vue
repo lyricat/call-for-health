@@ -8,7 +8,7 @@
         用户名：{{ me.name }}
       </p>
 
-      <kyc-status :me="me" />
+      <kyc-status :user="me" />
 
       <h4 class="mb-2 caption text--secondary">
         我发布的需求

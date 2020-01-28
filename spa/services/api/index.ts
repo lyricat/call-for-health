@@ -13,6 +13,8 @@ export const updateRequirementStatus = (id:number, data:any): Promise<IRequireme
 
 export const getMe = (): Promise<IUser> => http.get('/account/me')
 
+export const getUser = (id:number): Promise<IUser> => http.get(`/users/${id}`)
+
 export const getMyRequirements = (): Promise<IRequirement[]> => http.get('/account/me/requirements')
 
 export const getAttachments = (id:number): Promise<IAttachment[]> => http.get(`/requirements/${id}/attachments`)
