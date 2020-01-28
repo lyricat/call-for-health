@@ -4,6 +4,7 @@ import moment from 'moment'
 import errorHandler from '@/utils/errorHandler'
 import copyUtil from '@/utils/copyUtil'
 import autolink from '@/utils/autolink'
+import { UTC_OFFSET } from '../constants'
 
 export default () => {
   Vue.prototype.$icons = {
@@ -21,7 +22,7 @@ export default () => {
   Vue.prototype.$copyUtil = copyUtil
 
   Vue.prototype.$moment = (x) => {
-    return moment(x).utcOffset(-8)
+    return moment(x).utcOffset(UTC_OFFSET)
   }
 
   Vue.prototype.$autolink = autolink
