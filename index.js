@@ -1,6 +1,7 @@
 const cluster = require("cluster");
 const cron = require("node-cron");
 const cryptoUtils = require("./utils/crypto-utils");
+const fs = require("fs");
 
 const workerMapping = {
   kyc: require("./workers/kyc"),
@@ -152,14 +153,9 @@ The commands are:
     `)
   } else  {
     if (args[0] === 'gen-keys' || args[0] === 'gen') {
-      const keys = cryptoUtils.generateKeys("")
-      console.log(`
-Public Key:
-${keys.public}
-
-Private Key:
-${keys.private}
-      `)
+      genKeys();
+      genKeys('kyc-')
+      console.log('gen keys success, look at keys dir')
     } else if (args[0] === 'decrypt-kyc') {
       if (args[1]) {
         decryptKyc(args[1])
@@ -168,6 +164,19 @@ ${keys.private}
       serve();
     }
   }
+}
+
+const genKeys = (keyPrefix) => {
+  const dir = './keys';
+  const keys = cryptoUtils.generateKeys("")
+  if (fs.existsSync(dir)) {
+    console.log(`${dir} directory found`);
+  } else {
+    console.log(`no ${dir} directory`);
+    fs.mkdirSync(dir)
+  }
+  fs.writeFileSync(`${dir}/${keyPrefix || ''}pub.key`, keys.public);
+  fs.writeFileSync(`${dir}/${keyPrefix || ''}priv.key`, keys.private);
 }
 
 main()
