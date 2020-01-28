@@ -49,11 +49,9 @@ class UserPage extends Vue {
   async request () {
     try {
       const id = parseInt(this.$route.params.id)
-      console.log(id)
       const user = await getUser(id)
       this.user = user
     } catch (error) {
-      console.log(error)
       this.$errorHandler(this.$toast.bind(this), error)
     }
   }

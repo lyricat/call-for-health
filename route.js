@@ -74,6 +74,8 @@ module.exports = {
       .post("/requirements/:id/attachments", jwtAuthRequired, kycRequired, ctrl.requirement.handleCreateAttachment)
       .get ("/requirements/:id/attachments", ctrl.requirement.listAttachments)
 
+      .get ("/query", ctrl.requirement.query)
+
       // products api
       // @TODO: create and update
       // .get ("/products", ctrl.products.list)
