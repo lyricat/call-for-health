@@ -37,7 +37,7 @@
           small
           outlined
           color="error"
-          @click="delectItem(i)"
+          @click="deleteItem(i)"
         >
           删除
         </v-btn>
