@@ -49,7 +49,7 @@
         >
           修改需求内容
         </v-btn>
-        <v-btn
+        <!-- <v-btn
           v-if="hasPermissionToChangeStatus"
           block
           color="primary"
@@ -58,7 +58,7 @@
           @click="gotoEditReuirement"
         >
           设置状态
-        </v-btn>
+        </v-btn> -->
       </v-flex>
       <div @click="showShare = false">
         <v-overlay

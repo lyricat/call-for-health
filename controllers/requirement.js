@@ -126,11 +126,17 @@ module.exports = {
     const user = ctx.state.user;
     const updateData = ctx.request.body;
 
+
     const existed = await model.Requirement.findByPk(id);
     if (existed === null) {
-      ctx.body = { status: 404, error: 'not found'}
+      ctx.body = { status: 404, error: 'not found' }
       return
     }
+    if (user.role !== 'VOLUNTEER' && user.id !== existed.creatorId) {
+      ctx.body = { status: 403, error: 'no permission' }
+      return
+    }
+
     let txId = '';
     let payload = {
       text: updateData.text || existed.text,
@@ -169,6 +175,11 @@ module.exports = {
     const user = ctx.state.user;
     const updateData = ctx.request.body;
 
+    if (user.role !== 'VOLUNTEER') {
+      ctx.body = { status: 403, error: 'no permission' }
+      return
+    }
+
     // only allow updating status
     if (updateData.status in model.RequirementStatus) {
       const record = await model.Requirement.findByPk(id);
@@ -176,6 +187,7 @@ module.exports = {
         ctx.body = { status: 404, error: 'not found'}
         return
       }
+
       let resp = {};
       let txId = '';
 
