@@ -20,6 +20,9 @@
         <v-list-item @click="toHome">
           <v-list-item-title>首页</v-list-item-title>
         </v-list-item>
+        <v-list-item v-if="showPendings" @click="toPendings">
+          <v-list-item-title>待审核列表</v-list-item-title>
+        </v-list-item>
         <login-require>
           <template #action-me="{ on }">
             <v-list-item v-on="on">
@@ -44,15 +47,27 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { Action } from 'vuex-class'
+import { Action, Getter } from 'vuex-class'
 
 @Component
 class Navbar extends Vue {
+  @Getter('user/passedKyc') passedKyc
+
+  @Getter('user/isVolunteer') isVolunteer
+
   @Action('user/logout') logout
+
+  get showPendings () {
+    return this.passedKyc && this.isVolunteer
+  }
 
   handleLogout () {
     this.logout()
     this.toHome()
+  }
+
+  toPendings () {
+    this.$router.push(this.localePath({ name: 'requirements-pendings' }))
   }
 
   toHome () {

@@ -3,7 +3,7 @@
     <v-card
       v-for="(item, i) in supplies"
       :key="i"
-      class="supplies mb-2"
+      class="pa-3"
       outlined
     >
       <div class="supplies-content">
@@ -32,7 +32,13 @@
         />
       </div>
       <v-card-actions>
-        <v-btn text color="primary" @click="delectItem(i)">
+        <v-spacer />
+        <v-btn
+          small
+          outlined
+          color="error"
+          @click="delectItem(i)"
+        >
           删除
         </v-btn>
       </v-card-actions>
@@ -73,11 +79,3 @@ class Product extends Vue {
 }
 export default Product
 </script>
-
-<style lang="scss" scoped>
-.supplies-content{
-  padding: 0 16px 0 16px;
-  margin: 0 auto;
-  box-sizing: border-box;
-}
-</style>

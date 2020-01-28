@@ -9,7 +9,7 @@ export default () => {
   Vue.prototype.$icons = {
     mdiArrowLeft,
     mdiDotsVertical,
-    mdiPlus,
+    mdiPlus
   }
 
   Vue.prototype.$toast = function (data: { message: string; color: string }) {

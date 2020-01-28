@@ -1,7 +1,11 @@
 import http from '~/services/http'
 import { IUser, IAttachment, IRequirement, ILogin } from '~/services/interface'
 
-export const getRequirements = (): Promise<IRequirement[]> => http.get('/requirements')
+export const getRequirements = (query = {}): Promise<IRequirement[]> => http.get('/requirements', { params: query })
+
+export const addRequirements = (data: IRequirement): Promise<IRequirement> => http.post('/requirements', { data })
+
+export const editRequirements = (id:number, data: IRequirement): Promise<IRequirement> => http.put('/requirements/' + id, { data })
 
 export const getRequirement = (id:number): Promise<IRequirement> => http.get('/requirements/' + id)
 

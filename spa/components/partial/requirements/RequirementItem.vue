@@ -68,13 +68,10 @@
       >
         <v-card-text class="pb-1 text">
           <div class="body-2">
-              <span class="status" :class="statusClass(requirement)">
-                {{ statusText(requirement) }}
-              </span>
-              {{ requirement.text }}
-          </div>
-          <div class="body-2 my-2">
-            需求 {{ requirement.products.length }} 种货物
+            <span class="status" :class="statusClass(requirement)">
+              {{ statusText(requirement) }}
+            </span>
+            {{ requirement.text }}
           </div>
         </v-card-text>
         <v-card-actions>
@@ -97,8 +94,8 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
+import ProductItem from './ProductItem.vue'
 import { IRequirement } from '@/services/interface'
-import ProductItem from '@/components/ProductItem.vue'
 import CopyableItem from '@/components/CopyableItem.vue'
 
 @Component({
@@ -107,8 +104,11 @@ import CopyableItem from '@/components/CopyableItem.vue'
   }
 })
 export default class RequirementItem extends Vue {
-  @Prop({ type: (Object as () => IRequirement), default: null }) readonly requirement!: boolean
-  @Prop({ type: Boolean, default: false }) readonly full!: boolean
+  @Prop({ type: (Object as () => IRequirement) }) requirement!: IRequirement
+
+  @Prop({ type: Boolean, default: false }) full!: boolean
+
+  @Prop({ type: Boolean, default: false }) showStatus!: boolean
 
   tapRequirement (id:any) {
     if (!this.full) {
