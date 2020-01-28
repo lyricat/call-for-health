@@ -39,7 +39,9 @@
               联系方式：
             </div>
             <copyable-item :destination="requirement.contacts">
-              <span v-html="$autolink(requirement.contacts)">{{ requirement.contacts }}</span>
+              <span class="contact" v-html="$autolink(requirement.contacts)">
+                {{ requirement.contacts }}
+              </span>
             </copyable-item>
           </div>
         </v-card-text>
@@ -149,6 +151,9 @@ export default class RequirementItem extends Vue {
   .requirement-section-title {
     border-bottom: 1px solid #ccc;
     color: #666;
+  }
+  .contact {
+    word-break: break-all;
   }
   .status {
     border-radius: 2px;
