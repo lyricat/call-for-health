@@ -6,6 +6,7 @@
       label="医院名称"
       dense
       :rules="rules.text"
+      class="mb-4"
     />
     <v-text-field
       v-model="hosiptalData.location"
@@ -13,6 +14,7 @@
       required
       dense
       label="医院地址，用于收取物资"
+      class="mb-4"
     />
     <v-text-field
       v-model="hosiptalData.contacts"
@@ -20,6 +22,7 @@
       required
       dense
       label="联系方式"
+      class="mb-4"
     />
     <v-text-field
       v-model="hosiptalData.sourceUrl"
@@ -62,5 +65,3 @@ class Hosiptal extends Vue {
 }
 export default Hosiptal
 </script>
-
-<style lang="scss" scoped></style>

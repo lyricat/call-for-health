@@ -68,10 +68,10 @@
       >
         <v-card-text class="pb-1 text">
           <div class="body-2">
-              <span class="status" :class="statusClass(requirement)">
-                {{ statusText(requirement) }}
-              </span>
-              {{ requirement.text }}
+            <span class="status" :class="statusClass(requirement)">
+              {{ statusText(requirement) }}
+            </span>
+            {{ requirement.text }}
           </div>
         </v-card-text>
         <v-card-actions>
@@ -104,11 +104,11 @@ import CopyableItem from '@/components/CopyableItem.vue'
   }
 })
 export default class RequirementItem extends Vue {
-  @Prop({ type: (Object as () => IRequirement) }) readonly requirement!: IRequirement
+  @Prop({ type: (Object as () => IRequirement) }) requirement!: IRequirement
 
-  @Prop({ type: Boolean, default: false }) readonly full!: boolean
+  @Prop({ type: Boolean, default: false }) full!: boolean
 
-  @Prop({ type: Boolean, default: false }) readonly showStatus!: boolean
+  @Prop({ type: Boolean, default: false }) showStatus!: boolean
 
   tapRequirement (id:any) {
     if (!this.full) {

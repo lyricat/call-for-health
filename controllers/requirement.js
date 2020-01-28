@@ -187,7 +187,13 @@ module.exports = {
 
     // only allow updating status
     if (updateData.status in model.RequirementStatus) {
-      const record = await model.Requirement.findByPk(id);
+      const record = await model.Requirement.findByPk(id, {
+        include: [{
+          model: model.User,
+          attributes: model.UserAttrs,
+          as: 'creator'
+        }]
+      });
       if (record === null) {
         ctx.body = { status: 404, error: 'not found'}
         return

@@ -81,15 +81,6 @@ export default {
     return request(config)
   },
 
-  put (url: string, options: AxiosRequestConfig = {}) {
-    const config = {
-      url,
-      method: 'put',
-      ...options
-    } as AxiosRequestConfig
-    return request(config)
-  },
-
   delete (url: string, options: AxiosRequestConfig = {}): Promise<any> {
     const config = {
       url,

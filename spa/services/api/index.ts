@@ -5,6 +5,8 @@ export const getRequirements = (query = {}): Promise<IRequirement[]> => http.get
 
 export const addRequirements = (data: IRequirement): Promise<IRequirement> => http.post('/requirements', { data })
 
+export const editRequirements = (id:number, data: IRequirement): Promise<IRequirement> => http.put('/requirements/' + id, { data })
+
 export const getRequirement = (id:number): Promise<IRequirement> => http.get('/requirements/' + id)
 
 export const updateRequirementStatus = (id:number, data:any): Promise<IRequirement> => http.put(`/requirements/${id}/status`, { data })

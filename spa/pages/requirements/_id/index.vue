@@ -30,7 +30,7 @@
           </v-flex>
         </v-card-text>
       </v-card>
-      <pass-action :id="id" :show="showReview" @done="handleRefresh" />
+      <!-- <pass-action :id="id" :show="showReview" @done="handleRefresh" /> -->
       <v-flex v-if="confirmed" class="mt-2">
         <v-btn
           block
@@ -129,14 +129,14 @@ import PassAction from '@/components/partial/requirements/PassAction.vue'
 class IndexPage extends Vue {
   @Getter('user/logged') logged
 
-  @Getter('user/isVoluneer') isVoluneer
+  @Getter('user/isVolunteer') isVolunteer
 
   requirement: IRequirement | any = {};
 
   attachments: Array<IAttachment> | [] = [];
 
   showShare: boolean = false;
-  
+
   showStatusDialog: boolean = false;
 
   loading = false
@@ -161,11 +161,11 @@ class IndexPage extends Vue {
   }
 
   get hasPermissionToEdit () {
-    return this.requirement.creatorId === this.logged.id || this.isVoluneer
+    return this.requirement.creatorId === this.logged.id || this.isVolunteer
   }
 
   get hasPermissionToChangeStatus () {
-    return this.isVoluneer
+    return this.isVolunteer
   }
 
   gotoEditReuirement () {

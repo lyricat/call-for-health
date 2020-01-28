@@ -10,7 +10,12 @@
       :requirement="requirement"
       v-bind="$attrs"
     />
-    <template v-if="requirements.length === 0">
+    <template v-if="loading">
+      <div class="text-center text--secondary pa-5">
+        加载中
+      </div>
+    </template>
+    <template v-else-if="requirements.length === 0">
       <div class="text-center text--secondary pa-5">
         没有数据
       </div>
