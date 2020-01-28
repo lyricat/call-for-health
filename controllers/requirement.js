@@ -54,7 +54,7 @@ module.exports = {
 
   query: async function(ctx) {
     const { keywords, limit = 10, offset = 0 } = ctx.query
-    if (keywords.length === 0) {
+    if (keywords.length < 2) {
       ctx.body = { status: 'success', data: [] };
       return
     }
