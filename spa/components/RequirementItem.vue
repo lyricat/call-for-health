@@ -118,11 +118,11 @@ export default class RequirementItem extends Vue {
 
   statusText (req) {
     if (req.status === 'PENDING') {
-      return '审核中'
+      return '等待审核'
     } else if (req.status === 'CONFIRMED' && req.sourceUrl && req.sourceUrl.indexOf('http') === 0) {
-      return '已确认'
+      return '信息属实'
     } else if (req.status === 'CONFIRMED') {
-      return '来源请求'
+      return '审核中'
     }
     return ''
   }
