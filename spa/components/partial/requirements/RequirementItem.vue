@@ -7,8 +7,8 @@
         :ripple="false"
         outlined
       >
-        <v-card-text class="pb-1 text">
-          <div class="body-2">
+        <v-card-text class="text">
+          <div class="card-top body-2">
             <div>
               <span class="status" :class="statusClass(requirement)">
                 {{ statusText(requirement) }}
@@ -16,35 +16,35 @@
               {{ requirement.text }}
             </div>
           </div>
-          <div class="body-2 my-2">
-            <div class="requirement-section-title caption mb-1">
-              需求货物：
-            </div>
+          <div class="requirement-section-title caption mb-1">
+            需求货物：
+          </div>
+          <div class="requirement-section-body body-2 my-2">
             <product-item
               v-for="prod in requirement.products"
               :key="prod.id"
               :product="prod"
             />
           </div>
-          <div class="body-2 my-2">
-            <div class="requirement-section-title caption mb-1">
-              地址：
-            </div>
+          <div class="requirement-section-title caption mb-1">
+            地址：
+          </div>
+          <div class="requirement-section-body body-2 my-2">
             <copyable-item :destination="requirement.location">
               <span>{{ requirement.location }}</span>
             </copyable-item>
           </div>
-          <div class="body-2 my-2">
-            <div class="requirement-section-title caption mb-1">
-              联系方式：
-            </div>
+          <div class="requirement-section-title caption mb-1">
+            联系方式：
+          </div>
+          <div class="requirement-section-body body-2 my-2">
             <copyable-item :destination="requirement.contacts">
               <span v-html="$autolink(requirement.contacts)">{{ requirement.contacts }}</span>
             </copyable-item>
           </div>
         </v-card-text>
-        <v-card-actions>
-          <div class="caption grow d-flex flex-row mx-2">
+        <v-card-actions class="meta">
+          <div class="caption grow d-flex flex-row">
             <div class="name grow">
               <template v-if="requirement.sourceUrl">
                 <a :href="requirement.sourceUrl" target="_blank">来源</a> ·
@@ -66,16 +66,19 @@
         outlined
         @click="full ? (()=>{}) : tapRequirement(requirement.id)"
       >
-        <v-card-text class="pb-1 text">
-          <div class="body-2">
+        <v-card-text class="text">
+          <div class="card-top pb-0 body-2">
             <span class="status" :class="statusClass(requirement)">
               {{ statusText(requirement) }}
             </span>
             {{ requirement.text }}
           </div>
+          <div class="requirement-section-body body-2 my-2">
+            {{ `急需${requirement.products.length}种物资，约${productSum}件`}}
+          </div>
         </v-card-text>
-        <v-card-actions>
-          <div class="caption grow d-flex flex-row mx-2">
+        <v-card-actions class="meta">
+          <div class="caption grow d-flex flex-row">
             <div class="name grow">
               <template v-if="requirement.sourceUrl">
                 <a :href="requirement.sourceUrl" target="_blank">来源</a> ·
@@ -110,6 +113,17 @@ export default class RequirementItem extends Vue {
 
   @Prop({ type: Boolean, default: false }) showStatus!: boolean
 
+  get productSum () {
+    let sum = 0
+    for (let ix = 0; ix < this.requirement.products.length; ix++) {
+      const amount = parseInt(this.requirement.products[ix].amount) || 0
+      if (amount > 0) {
+        sum += amount
+      }
+    }
+    return sum
+  }
+
   tapRequirement (id:any) {
     if (!this.full) {
       this.$router.push('/requirements/' + id)
@@ -143,12 +157,23 @@ export default class RequirementItem extends Vue {
 <style lang="scss" scoped>
 .requirement-item {
   margin-bottom: 10px;
+  .card-top {
+    padding: 10px 10px;
+  }
   .text {
     color: #000 !important;
+    padding: 0;
+  }
+  .requirement-section-body {
+    padding: 0 10px;
   }
   .requirement-section-title {
-    border-bottom: 1px solid #ccc;
-    color: #666;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 2px 10px;
+  }
+  .meta {
+    background: rgba(0, 0, 0, 0.05);
+    padding: 4px 10px;
   }
   .status {
     border-radius: 2px;

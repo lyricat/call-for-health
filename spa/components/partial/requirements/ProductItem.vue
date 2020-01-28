@@ -2,9 +2,9 @@
   <div class="product-item d-flex" outlined @click.stop>
     <div class="body-2 name">
       {{ product.name }}
-    </div>
-    <div class="mx-3 model">
-      {{ product.model }}
+      <div class="model">
+        {{ product.model }}
+      </div>
     </div>
     <div v-if="product.amount" class="body-2 grow text-right">
       x{{ product.amount }}
@@ -25,13 +25,15 @@ export default class RequirementItem extends Vue {
 <style lang="scss" scoped>
 .product-item {
   margin-bottom: 2px;
-
+  padding: 2px 0;
+  border-bottom: 1px solid #ddd;
   .name {
     white-space: nowrap;
   }
 
   .model {
     color: cadetblue;
+    font-size: 12px;
   }
 }
 </style>
