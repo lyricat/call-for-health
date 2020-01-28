@@ -56,6 +56,8 @@ module.exports = {
       .get ("/account/me", jwtAuthRequired, ctrl.account.me)
       .get ("/account/me/requirements", jwtAuthRequired, ctrl.requirement.listMine)
 
+      .get ("/users/:id", ctrl.user.single)
+
       // kyc
       .post("/kyc/faceid/start", jwtAuthRequired, ctrl.account.kycFaceIdStart)
       // - i do not use face id's callback actually, they are not stable.
@@ -71,7 +73,9 @@ module.exports = {
       .put ("/requirements/:id/status", jwtAuthRequired, kycRequired, isVolunteer, ctrl.requirement.handleUpdateStatus)
       .post("/requirements/:id/attachments", jwtAuthRequired, kycRequired, ctrl.requirement.handleCreateAttachment)
       .get ("/requirements/:id/attachments", ctrl.requirement.listAttachments)
-      
+
+      .get ("/query", ctrl.requirement.query)
+
       // products api
       // @TODO: create and update
       // .get ("/products", ctrl.products.list)

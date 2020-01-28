@@ -1,6 +1,7 @@
 const model = require("../model");
 const metadb = require("../metadb");
 const config = require("../config.json");
+const Sequelize = require('sequelize');
 const { buildOnChainRecord } = require('../utils/view')
 
 module.exports = {
@@ -47,6 +48,32 @@ module.exports = {
         as: 'creator'
       }],
       order: [["createdAt", "DESC"]]
+    })
+    ctx.body = { status: 'success', data: records };
+  },
+
+  query: async function(ctx) {
+    const { status, keywords, limit = 10, offset = 0 } = ctx.query
+    const filters = {
+      text: {
+        [Sequelize.Op.like]: `%${keywords}%`
+      }
+    }
+    status && (filters.status = status)
+    if (keywords.length < 2) {
+      ctx.body = { status: 'success', data: [] };
+      return
+    }
+    let records = await model.Requirement.findAll({
+      where: filters,
+      include: [{
+        model: model.User,
+        attributes: model.UserAttrs,
+        as: 'creator'
+      }],
+      order: [["createdAt", "DESC"]],
+      limit: Number(limit),
+      offset: Number(offset)
     })
     ctx.body = { status: 'success', data: records };
   },

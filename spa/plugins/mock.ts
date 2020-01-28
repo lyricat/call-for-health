@@ -1,5 +1,5 @@
 var Mock = require('mockjs')
 
-Mock.mock(/user/, {
+Mock.mock(/test/, {
   name: 'Tommy'
 })
