@@ -6,6 +6,7 @@ import QRCode from '@/components/basic/QRCode.vue'
 import LoginRequire from '@/components/basic/LoginRequire.vue'
 import Toast from '@/components/basic/Toast.vue'
 import CopyableItem from '@/components/basic/CopyableItem.vue'
+import ActionsSheet from '@/components/basic/ActionsSheet.vue'
 
 import 'animate.css'
 
@@ -19,3 +20,4 @@ Vue.component('loading', Loading)
 Vue.component('login-require', LoginRequire)
 Vue.component('toast', Toast)
 Vue.component('copyable-item', CopyableItem)
+Vue.component('actions-sheet', ActionsSheet)

@@ -24,9 +24,13 @@ export default class RequirementItem extends Vue {
 
 <style lang="scss" scoped>
 .product-item {
-  margin-bottom: 2px;
-  padding: 2px 0;
+  padding: 8px 0;
   border-bottom: 1px solid #ddd;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
   .name {
     white-space: nowrap;
   }

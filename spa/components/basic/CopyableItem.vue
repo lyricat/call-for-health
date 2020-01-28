@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-row align-center">
-    <div class="d-flex align-center" style="min-height: 28px;">
+    <div class="d-flex align-center wrapper pr-2">
       <slot />
     </div>
     <v-btn
@@ -27,4 +27,7 @@ export default class CopyableItem extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.wrapper {
+  min-height: 28px;
+}
 </style>

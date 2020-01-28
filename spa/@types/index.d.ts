@@ -4,6 +4,7 @@ import { IError } from '@/utils/errorHandler'
 declare module 'vue/types/vue' {
   interface Vue {
     title?: any
+    $vuetify: any
     $errorHandler: ($toast: Function, error: IError) => {}
     $toast: (data: { message: string; color: string }) => {}
   }

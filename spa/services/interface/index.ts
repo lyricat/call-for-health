@@ -38,14 +38,14 @@ export interface IRequirement {
 }
 
 export interface IAttachment {
-  id: number,
-  creatorId: number,
-  requirementId: number,
-  type: string,
-  data: string,
-  txId: string,
-  createdAt: string,
-  updatedAt: string
+  id?: number,
+  creatorId?: number,
+  requirementId?: number,
+  type?: string,
+  data?: string,
+  txId?: string,
+  createdAt?: string,
+  updatedAt?: string
 }
 
 export interface IProduct {

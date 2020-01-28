@@ -7,27 +7,26 @@
       class="pa-3 mb-2"
     >
       <div class="supplies-content">
-        <v-text-field
+        <v-textarea
           v-model="supplies[i].name"
           :rules="rules.productName"
           required
+          auto-grow
+          rows="1"
           label="产品名称"
-          dense
-          single-line
         />
-        <v-text-field
+        <v-textarea
           v-model="supplies[i].model"
-          single-line
           :rules="rules.productModel"
           required
-          dense
+          auto-grow
+          rows="1"
           label="型号或者标准"
         />
         <v-text-field
           v-model="supplies[i].amount"
           single-line
           :rules="rules.productAmount"
-          dense
           label="需求量"
         />
       </div>
