@@ -51,7 +51,12 @@
               <template v-if="requirement.sourceUrl">
                 <a :href="requirement.sourceUrl" target="_blank">来源</a> ·
               </template>
-              由 {{ requirement.creator.name }} 发布
+              由
+              <nuxt-link :to="'/users/' + requirement.creatorId">
+                {{ requirement.creator.name }}
+                <span class="verified-user">实名</span>
+              </nuxt-link>
+              发布
             </div>
             <div class="time">
               {{ $moment(requirement.createdAt).format('YYYY/MM/DD') }}
@@ -196,6 +201,13 @@ export default class RequirementItem extends Vue {
       background: rgb(219, 130, 27);
       color: white;
     }
+  }
+  .verified-user {
+    color: white;
+    background: goldenrod;
+    padding: 1px 2px;
+    border-radius: 2px;
+    font-size: 11px;
   }
 }
 </style>
