@@ -39,7 +39,9 @@
           </div>
           <div class="requirement-section-body body-2 my-2">
             <copyable-item :destination="requirement.contacts">
-              <span v-html="$autolink(requirement.contacts)">{{ requirement.contacts }}</span>
+              <span class="contact" v-html="$autolink(requirement.contacts)">
+                {{ requirement.contacts }}
+              </span>
             </copyable-item>
           </div>
         </v-card-text>
@@ -174,6 +176,9 @@ export default class RequirementItem extends Vue {
   .meta {
     background: rgba(0, 0, 0, 0.05);
     padding: 4px 10px;
+  }
+  .contact {
+    word-break: break-all;
   }
   .status {
     border-radius: 2px;
