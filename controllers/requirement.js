@@ -53,17 +53,19 @@ module.exports = {
   },
 
   query: async function(ctx) {
-    const { keywords, limit = 10, offset = 0 } = ctx.query
+    const { status, keywords, limit = 10, offset = 0 } = ctx.query
+    const filters = {
+      text: {
+        [Sequelize.Op.like]: `%${keywords}%`
+      }
+    }
+    status && (filters.status = status)
     if (keywords.length < 2) {
       ctx.body = { status: 'success', data: [] };
       return
     }
     let records = await model.Requirement.findAll({
-      where: {
-        text: {
-          [Sequelize.Op.like]: `%${keywords}%`
-        }
-      },
+      where: filters,
       include: [{
         model: model.User,
         attributes: model.UserAttrs,
