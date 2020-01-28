@@ -26,6 +26,7 @@ CREATE TABLE `requirements` (
   `location` text COLLATE utf8mb4_unicode_ci,
   `contacts` text COLLATE utf8mb4_unicode_ci,
   `products` json DEFAULT NULL,
+  `sourceUrl` text COLLATE utf8mb4_unicode_ci,
   `status` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT 'PENDING',
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,

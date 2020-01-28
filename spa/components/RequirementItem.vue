@@ -9,7 +9,12 @@
       >
         <v-card-text class="pb-1 text">
           <div class="body-2">
-            {{ requirement.text }}
+            <div>
+              <span class="status" :class="requirement.status.toLowerCase()">
+                {{ statusText(requirement.status) }}
+              </span>
+              {{ requirement.text }}
+            </div>
           </div>
           <div class="body-2 my-2">
             <div class="requirement-section-title caption mb-1">
@@ -41,7 +46,8 @@
         <v-card-actions>
           <div class="caption grow d-flex flex-row mx-2">
             <div class="name grow">
-              {{ requirement.creator.name }} 发布
+              <a :href="requirement.sourceUrl" target="_blank">来源</a> ·
+              由 {{ requirement.creator.name }} 发布
             </div>
             <div class="time">
               {{ $moment(requirement.createdAt).format('YYYY/MM/DD') }}
@@ -60,7 +66,10 @@
       >
         <v-card-text class="pb-1 text">
           <div class="body-2">
-            {{ requirement.text }}
+              <span class="status" :class="requirement.status.toLowerCase()">
+                {{ statusText(requirement.status) }}
+              </span>
+              {{ requirement.text }}
           </div>
           <div class="body-2 my-2">
             需求 {{ requirement.products.length }} 种货物
@@ -101,6 +110,15 @@ export default class RequirementItem extends Vue {
       this.$router.push('/requirements/' + id)
     }
   }
+
+  statusText (status) {
+    if (status === 'PENDING') {
+      return '审核中'
+    } else if (status === 'CONFIRMED') {
+      return '已认证'
+    }
+    return ''
+  }
 }
 </script>
 
@@ -113,6 +131,19 @@ export default class RequirementItem extends Vue {
   .requirement-section-title {
     border-bottom: 1px solid #ccc;
     color: #666;
+  }
+  .status {
+    border-radius: 2px;
+    background: #ccc;
+    font-size: 12px;
+    padding: 2px 3px;
+    margin-right: 0.5em;
+    text-align: center;
+    font-weight: bold;
+    &.confirmed {
+      background: rgb(22, 168, 22);
+      color: white;
+    }
   }
 }
 </style>

@@ -32,6 +32,9 @@ const Requirement = db.getDB().define("requirement", {
     type: Sequelize.JSON,
     allowNull: false
   },
+  sourceUrl: {
+    type: Sequelize.STRING
+  },
   status: {
     type: Sequelize.STRING,
     allowNull: false,

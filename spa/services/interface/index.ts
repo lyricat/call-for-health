@@ -20,6 +20,7 @@ export interface IKYC {
   passedAt: string
 }
 
+
 export interface IRequirement {
   id: number,
   creatorId: number,
@@ -28,6 +29,7 @@ export interface IRequirement {
   text: string,
   location: string,
   contacts: string,
+  sourceUrl: string,
   products: Array<any>,
   status: string,
   createdAt: string,

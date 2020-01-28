@@ -97,6 +97,7 @@ module.exports = {
       location: createData.location,
       contacts: createData.contacts,
       products: createData.products,
+      sourceUrl: createData.sourceUrl,
       status: status
     });
 
