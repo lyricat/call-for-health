@@ -10,8 +10,8 @@
         <v-card-text class="pb-1 text">
           <div class="body-2">
             <div>
-              <span class="status" :class="requirement.status.toLowerCase()">
-                {{ statusText(requirement.status) }}
+              <span class="status" :class="statusClass(requirement)">
+                {{ statusText(requirement) }}
               </span>
               {{ requirement.text }}
             </div>
@@ -46,7 +46,9 @@
         <v-card-actions>
           <div class="caption grow d-flex flex-row mx-2">
             <div class="name grow">
-              <a :href="requirement.sourceUrl" target="_blank">来源</a> ·
+              <template v-if="requirement.sourceUrl">
+                <a :href="requirement.sourceUrl" target="_blank">来源</a> ·
+              </template>
               由 {{ requirement.creator.name }} 发布
             </div>
             <div class="time">
@@ -66,8 +68,8 @@
       >
         <v-card-text class="pb-1 text">
           <div class="body-2">
-              <span class="status" :class="requirement.status.toLowerCase()">
-                {{ statusText(requirement.status) }}
+              <span class="status" :class="statusClass(requirement)">
+                {{ statusText(requirement) }}
               </span>
               {{ requirement.text }}
           </div>
@@ -78,7 +80,10 @@
         <v-card-actions>
           <div class="caption grow d-flex flex-row mx-2">
             <div class="name grow">
-              {{ requirement.creator.name }} 发布
+              <template v-if="requirement.sourceUrl">
+                <a :href="requirement.sourceUrl" target="_blank">来源</a> ·
+              </template>
+              由 {{ requirement.creator.name }} 发布
             </div>
             <div class="time">
               {{ $moment(requirement.createdAt).format('YYYY/MM/DD') }}
@@ -111,11 +116,24 @@ export default class RequirementItem extends Vue {
     }
   }
 
-  statusText (status) {
-    if (status === 'PENDING') {
+  statusText (req) {
+    if (req.status === 'PENDING') {
       return '审核中'
-    } else if (status === 'CONFIRMED') {
-      return '已认证'
+    } else if (req.status === 'CONFIRMED' && req.sourceUrl && req.sourceUrl.indexOf('http') === 0) {
+      return '已确认'
+    } else if (req.status === 'CONFIRMED') {
+      return '来源请求'
+    }
+    return ''
+  }
+
+  statusClass (req) {
+    if (req.status === 'PENDING') {
+      return 'pending'
+    } else if (req.status === 'CONFIRMED' && req.sourceUrl && req.sourceUrl.indexOf('http') === 0) {
+      return 'confirmed'
+    } else if (req.status === 'CONFIRMED') {
+      return 'need_ref'
     }
     return ''
   }
@@ -142,6 +160,10 @@ export default class RequirementItem extends Vue {
     font-weight: bold;
     &.confirmed {
       background: rgb(22, 168, 22);
+      color: white;
+    }
+    &.need_ref {
+      background: rgb(219, 130, 27);
       color: white;
     }
   }
