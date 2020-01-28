@@ -5,6 +5,8 @@ export const getRequirements = (): Promise<IRequirement[]> => http.get('/require
 
 export const getRequirement = (id:number): Promise<IRequirement> => http.get('/requirements/' + id)
 
+export const updateRequirementStatus = (id:number, data:any): Promise<IRequirement> => http.put(`/requirements/${id}/status`, { data })
+
 export const getMe = (): Promise<IUser> => http.get('/account/me')
 
 export const getMyRequirements = (): Promise<IRequirement[]> => http.get('/account/me/requirements')

@@ -49,16 +49,37 @@
         >
           修改需求内容
         </v-btn>
-        <!-- <v-btn
+        <v-btn
           v-if="hasPermissionToChangeStatus"
           block
           color="primary"
           outlined
           class="mb-2"
-          @click="gotoEditReuirement"
+          @click="showStatusDialog = true"
         >
           设置状态
-        </v-btn> -->
+        </v-btn>
+        <v-dialog
+          v-model="showStatusDialog"
+          max-width="290"
+        >
+          <v-card>
+            <v-card-title class="headline">
+              设置需求状态
+            </v-card-title>
+            <v-card-text>
+              <v-btn block color="primary" outlined class="mb-2" @click="confirmRequirement">
+                确认
+              </v-btn>
+              <v-btn block color="primary" outlined class="mb-2" @click="holdRequirement">
+                待确认
+              </v-btn>
+              <v-btn block color="primary" outlined class="mb-2" @click="hideRequirement">
+                隐藏
+              </v-btn>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
       </v-flex>
       <div @click="showShare = false">
         <v-overlay
@@ -77,7 +98,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { Getter } from 'vuex-class'
-import { getRequirement, getAttachments } from '@/services/api'
+import { getRequirement, getAttachments, updateRequirementStatus } from '@/services/api'
 import { IRequirement, IAttachment } from '@/services/interface'
 import RequirementItem from '@/components/RequirementItem.vue'
 
@@ -98,6 +119,7 @@ class IndexPage extends Vue {
   requirement: IRequirement | any = {};
   attachments: Array<IAttachment> | [] = [];
   showShare: boolean = false;
+  showStatusDialog: boolean = false;
   id: any = 0;
 
   loading = false
@@ -151,6 +173,26 @@ class IndexPage extends Vue {
     } catch (error) {
       this.$errorHandler(this.$toast.bind(this), error)
     }
+  }
+
+  async confirmRequirement () {
+    await this.changeRequirementStatus('CONFIRMED')
+  }
+
+  async holdRequirement () {
+    await this.changeRequirementStatus('PENDING')
+  }
+
+  async hideRequirement () {
+    await this.changeRequirementStatus('HIDDEN')
+  }
+
+  async changeRequirementStatus (st) {
+    const requirement = await updateRequirementStatus(this.requirement.id, {
+      'status': st
+    })
+    this.requirement = requirement
+    this.showStatusDialog = false
   }
 
   gotoScreenshot () {
