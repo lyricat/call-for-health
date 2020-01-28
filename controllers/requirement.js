@@ -12,6 +12,7 @@ module.exports = {
         attributes: model.UserAttrs,
         as: 'creator'
       }],
+      order: [["createdAt", "DESC"]]
     })
     ctx.body = { status: 'success', data: records };
   },
@@ -27,6 +28,7 @@ module.exports = {
         attributes: model.UserAttrs,
         as: 'creator'
       }],
+      order: [["createdAt", "DESC"]]
     })
     ctx.body = { status: 'success', data: records };
   },
@@ -40,6 +42,7 @@ module.exports = {
         attributes: model.UserAttrs,
         as: 'creator'
       }],
+      order: [["createdAt", "DESC"]]
     })
     ctx.body = { status: 'success', data: records };
   },
@@ -81,6 +84,11 @@ module.exports = {
       return;
     }
 
+    let status = 'PENDING'
+    if (user.role === 'VOLUNTEER') {
+      status = 'CONFIRMED'
+    }
+
     var resp, txId;
     // 1. insert into db
     let item = await model.Requirement.create({
@@ -89,7 +97,8 @@ module.exports = {
       text: createData.text,
       location: createData.location,
       contacts: createData.contacts,
-      products: createData.products
+      products: createData.products,
+      status: status
     });
 
     if (config.network_gateway.enabled) {

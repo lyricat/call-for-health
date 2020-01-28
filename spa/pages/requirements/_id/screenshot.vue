@@ -6,15 +6,15 @@
         <requirement-item
           :requirement="requirement"
           :full="true"
-        ></requirement-item>
+        />
       </v-flex>
       <v-card outlined>
         <v-card-text class="d-flex flex-row">
           <v-flex class="body-2">
-            请截图保存到相册。<br/>
+            请截图保存到相册。<br>
             扫码查看最新的需求情况。
           </v-flex>
-          <qr-code :value="qrcodeUrl"/>
+          <qr-code :value="qrcodeUrl" />
         </v-card-text>
       </v-card>
     </v-container>

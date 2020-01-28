@@ -10,18 +10,20 @@
           :full="true"
         />
       </v-flex>
-      <v-card outlined v-if="attachments.length !== 0">
+      <v-card v-if="attachments.length !== 0" outlined>
         <v-card-text>
           <v-flex class="attachments">
-            <div class="overline">附言</div>
+            <div class="overline">
+              附言
+            </div>
             <div
-              class="attachment caption"
               v-for="attachment in attachments"
-              v-bind:key="attachment.id"
+              :key="attachment.id"
+              class="attachment caption"
             >
-              <span>{{attachment.creator.name}} 附言：</span>
+              <span>{{ attachment.creator.name }} 附言：</span>
               <span v-if="attachment.type === 'TEXT'">
-                {{attachment.data}}
+                {{ attachment.data }}
               </span>
               <span v-else>不支持的附件类型</span>
             </div>
@@ -29,13 +31,25 @@
         </v-card-text>
       </v-card>
       <v-flex v-if="confirmed" class="mt-2">
-        <v-btn block color="primary" depressed class="mb-2" @click="showShare = true">分享</v-btn>
-        <v-btn block color="primary" outlined @click="gotoScreenshot">保存图片</v-btn>
+        <v-btn block color="error" depressed class="mb-2" @click="gotoEditReuirement">
+          修改
+        </v-btn>
+        <v-btn block color="primary" depressed class="mb-2" @click="showShare = true">
+          分享
+        </v-btn>
+        <v-btn block color="primary" outlined @click="gotoScreenshot">
+          保存图片
+        </v-btn>
       </v-flex>
-      <div v-if="showShare" class="share-mask" @click="showShare = false">
-        <div class="share-text">
+      <div @click="showShare = false">
+        <v-overlay
+          :value="showShare"
+          light
+          color="rgba(0,0,0,0.8)"
+          opacity="1"
+        >
           点击右上角，分享给好友。
-        </div>
+        </v-overlay>
       </div>
     </v-container>
   </loading>
@@ -61,6 +75,7 @@ class IndexPage extends Vue {
   requirement: IRequirement | any = {};
   attachments: Array<IAttachment> | [] = [];
   showShare: boolean = false;
+  id: any = 0;
 
   loading = false
 
@@ -79,6 +94,10 @@ class IndexPage extends Vue {
     return this.requirement && this.requirement.status === 'CONFIRMED'
   }
 
+  gotoEditReuirement () {
+    this.$router.push('/requirements/edit/' + this.id)
+  }
+
   mounted () {
     this.init()
   }
@@ -86,6 +105,7 @@ class IndexPage extends Vue {
   async init () {
     this.loading = true
     const id = this.$route.params.id
+    this.id = id
     await this.request(id)
     this.loading = false
   }
@@ -112,23 +132,5 @@ export default IndexPage
 <style lang="scss" scoped>
 .attachments {
   background: rgba(0,0,0,0.01);
-}
-.share-mask {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.8);
-  .share-text {
-    position: fixed;
-    top: 20%;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    text-align: center;
-    color: white;
-    font-weight: bold;
-  }
 }
 </style>
