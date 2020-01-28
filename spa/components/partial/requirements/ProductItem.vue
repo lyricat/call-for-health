@@ -32,8 +32,9 @@ export default class RequirementItem extends Vue {
   }
 
   .model {
-    color: cadetblue;
+    color: rgb(44, 126, 129);
     font-size: 12px;
+    white-space: initial;
   }
 }
 </style>
