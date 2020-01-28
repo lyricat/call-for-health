@@ -38,6 +38,28 @@
           保存图片
         </v-btn>
       </v-flex>
+      <v-flex class="mt-4">
+        <v-btn
+          v-if="hasPermissionToEdit"
+          block
+          color="primary"
+          outlined
+          class="mb-2"
+          @click="gotoEditReuirement"
+        >
+          修改需求内容
+        </v-btn>
+        <v-btn
+          v-if="hasPermissionToChangeStatus"
+          block
+          color="primary"
+          outlined
+          class="mb-2"
+          @click="gotoEditReuirement"
+        >
+          设置状态
+        </v-btn>
+      </v-flex>
       <div @click="showShare = false">
         <v-overlay
           :value="showShare"
@@ -54,6 +76,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { Getter } from 'vuex-class'
 import { getRequirement, getAttachments } from '@/services/api'
 import { IRequirement, IAttachment } from '@/services/interface'
 import RequirementItem from '@/components/RequirementItem.vue'
@@ -69,9 +92,13 @@ import RequirementItem from '@/components/RequirementItem.vue'
   }
 })
 class IndexPage extends Vue {
+  @Getter('user/logged') logged
+  @Getter('user/isVoluneer') isVoluneer
+
   requirement: IRequirement | any = {};
   attachments: Array<IAttachment> | [] = [];
   showShare: boolean = false;
+  id: any = 0;
 
   loading = false
 
@@ -90,6 +117,18 @@ class IndexPage extends Vue {
     return this.requirement && this.requirement.status === 'CONFIRMED'
   }
 
+  get hasPermissionToEdit () {
+    return this.requirement.creatorId === this.logged.id || this.isVoluneer
+  }
+
+  get hasPermissionToChangeStatus () {
+    return this.isVoluneer
+  }
+
+  gotoEditReuirement () {
+    this.$router.push(`/requirements/${this.id}/edit`)
+  }
+
   mounted () {
     this.init()
   }
@@ -97,6 +136,7 @@ class IndexPage extends Vue {
   async init () {
     this.loading = true
     const id = this.$route.params.id
+    this.id = id
     await this.request(id)
     this.loading = false
   }

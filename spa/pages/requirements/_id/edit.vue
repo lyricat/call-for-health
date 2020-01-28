@@ -21,7 +21,7 @@
           block
           @click="submit"
         >
-          保存
+          修改
         </v-btn>
       </v-form>
     </v-container>
@@ -30,8 +30,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { add } from '@/services/api/requirement'
-import { IRequirement } from '@/services/interface'
+import { edit } from '@/services/api/requirement'
+import { getRequirement } from '@/services/api'
+import { IRequirement, IAttachment } from '@/services/interface'
 import Hosiptal from '@/components/partial/requirement/hosiptal.vue'
 import Product from '@/components/partial/requirement/product.vue'
 
@@ -47,7 +48,9 @@ import Product from '@/components/partial/requirement/product.vue'
     Product
   }
 })
-class AddRequirementPage extends Vue {
+class EditRequirementPage extends Vue {
+  requirement: IRequirement | any = {};
+  attachments: Array<IAttachment> | [] = [];
   loading = false
   valid = true
 
@@ -66,7 +69,10 @@ class AddRequirementPage extends Vue {
   }]
 
   get title () {
-    return '新增需求'
+    if (this.hosiptalData && this.hosiptalData.text) {
+      return '编辑 ' + this.hosiptalData.text
+    }
+    return '编辑需求'
   }
 
   mounted () {
@@ -74,6 +80,26 @@ class AddRequirementPage extends Vue {
   }
 
   async init () {
+    this.loading = true
+    const id = this.$route.params.id
+    await this.request(id)
+    this.loading = false
+  }
+
+  async request (id) {
+    try {
+      const requirement = await getRequirement(id)
+      this.requirement = requirement
+      this.hosiptalData = {
+        text: requirement.text,
+        location: requirement.location,
+        contacts: requirement.contacts,
+        sourceUrl: requirement.sourceUrl
+      }
+      this.supplies = requirement.products
+    } catch (error) {
+      this.$errorHandler(this.$toast.bind(this), error)
+    }
   }
 
   addItem () {
@@ -106,7 +132,7 @@ class AddRequirementPage extends Vue {
     if ((this.$refs.form as any).validate()) {
       try {
         this.loading = true
-        const resp = await add(submitData)
+        const resp = await edit(this.requirement.id, submitData)
         this.loading = false
         this.$router.replace('/requirements/' + resp.id)
       } catch (error) {
@@ -115,7 +141,7 @@ class AddRequirementPage extends Vue {
     }
   }
 }
-export default AddRequirementPage
+export default EditRequirementPage
 </script>
 
 <style lang="scss" scoped>

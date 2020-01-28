@@ -67,6 +67,7 @@ module.exports = {
       .get ("/requirements", ctrl.requirement.list)
       .get ("/requirements/:id", ctrl.requirement.single)
       .post("/requirements", jwtAuthRequired, kycRequired, ctrl.requirement.handleCreate)
+      .put ("/requirements/:id", jwtAuthRequired, kycRequired, ctrl.requirement.handleUpdate)
       .put ("/requirements/:id/status", jwtAuthRequired, kycRequired, isVolunteer, ctrl.requirement.handleUpdateStatus)
       .post("/requirements/:id/attachments", jwtAuthRequired, kycRequired, ctrl.requirement.handleCreateAttachment)
       .get ("/requirements/:id/attachments", ctrl.requirement.listAttachments)

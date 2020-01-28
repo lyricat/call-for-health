@@ -121,6 +121,49 @@ module.exports = {
     ctx.body = { status: 'success', data: itemExported };
   },
 
+  handleUpdate: async function(ctx) {
+    const id = ctx.params.id;
+    const user = ctx.state.user;
+    const updateData = ctx.request.body;
+
+    const existed = await model.Requirement.findByPk(id);
+    if (existed === null) {
+      ctx.body = { status: 404, error: 'not found'}
+      return
+    }
+    let txId = '';
+    let payload = {
+      text: updateData.text || existed.text,
+      location: updateData.location || existed.location,
+      contacts: updateData.contacts || existed.contacts,
+      products: updateData.products || existed.products,
+      sourceUrl: updateData.sourceUrl || existed.sourceUrl
+    }
+
+    if (config.network_gateway.enabled) {
+      // 1. create a item in network
+      try {
+        const onChainData = buildOnChainRecord(user, 'UPDATE_REQ', {
+          requirementId: existed.id,
+          requirementTxId: existed.latestTxId || existed.txId,
+          status: updateData.status
+        })
+        const resp = await metadb.seal(onChainData);
+        txId = resp.data.transaction_hash;
+      } catch (e) {
+        ctx.body = { status: 503, error: "failed to write to TestNet: " + e.message};
+        return;
+      }
+    }
+
+    // 2. update the db record
+    payload.latestTxId = txId
+    existed.update(payload)
+
+    ctx.body = { status: 'success', data: existed }
+
+  },
+
   handleUpdateStatus: async function(ctx) {
     const id = ctx.params.id;
     const user = ctx.state.user;

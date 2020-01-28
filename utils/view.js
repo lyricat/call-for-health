@@ -6,6 +6,13 @@ const buildOnChainRecord = function (user, action, payload) {
         id: payload.requirementId,
         op_id: user.id,
       }
+    case 'UPDATE_REQ':
+      return {
+        a: action,
+        id: payload.requirementId,
+        txid: payload.requirementTxId,
+        op_id: user.id,
+      }
     case 'CHANGE_STATUS':
       return {
         a: action,
